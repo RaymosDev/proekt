@@ -137,7 +137,7 @@ public class MainMenuScene extends SceneWithKeys {
     public void creditsScene(Graphics g, InputManager inputManager) {
         g.drawString("ТИТРЫ", 825, 105);
         String[] lines = { "Разработчики:",
-            "", "Мищяриков Р. А.", "Степанов М. Д.", "Евдокимов П. С.", "",
+            "", "Мищиряков Р. А.", "Степанов М. Д.", "Евдокимов П. С.", "",
            };
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
