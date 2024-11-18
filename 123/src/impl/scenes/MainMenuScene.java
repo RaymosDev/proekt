@@ -22,7 +22,7 @@ public class MainMenuScene extends SceneWithKeys {
     private static final Font UI_FONT = ResourceLoader.loadFont("res/Font.ttf", 36);
     // list of options
     private final String[] MAIN_MENU_OPTIONS = { "Старт", "Сложность", "Титры", "Выйти" };
-    private final String[] SETTINGS_OPTIONS = { "Простоя", "Средняя", "Высокая", "Назад" };
+    private final String[] SETTINGS_OPTIONS = { "Простая", "Средняя", "Высокая", "Назад" };
 
     private BufferedImage backgroundImage;
     private Image title;
