@@ -11,8 +11,8 @@ import impl.PlayerFollowingText;
 public class HealthDrop extends Drop {
     private static final double HEAL_AMOUNT = 3;
     private static final double LIFETIME = 10.0;
-    private static final int WIDTH = 50;
-    private static final int HEIGHT = 50;
+    private static final int WIDTH = 30;
+    private static final int HEIGHT = 48;
     private static final Image SPRITE = ResourceLoader.loadImage("res/images/entities/drops/HealthDrop.png")
 	    .getScaledInstance(WIDTH, HEIGHT, 0);
 
