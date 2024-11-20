@@ -34,18 +34,18 @@ public class GameScene extends SceneWithKeys {
     private static final Vector2 PLAYER_START = new Vector2(250, Main.HEIGHT / 2);
     private final String[] PAUSE_MENU_OPTIONS = { "Продолжить", "Главное меню" };
 
-    private static final Image GREEN_HP_FRAME = ResourceLoader.loadImage("res/images/ui/HealthOutlineGreen.png")
-	    .getScaledInstance((int) (142 * 2.5), (int) (20 * 2.5), 0);
-    private static final Image YELLOW_HP_FRAME = ResourceLoader.loadImage("res/images/ui/HealthOutlineYellow.png")
-	    .getScaledInstance((int) (142 * 2.5), (int) (20 * 2.5), 0);
-    private static final Image RED_HP_FRAME = ResourceLoader.loadImage("res/images/ui/HealthOutlineRed.png")
-	    .getScaledInstance((int) (142 * 2.5), (int) (20 * 2.5), 0);
-    private static final Image GREEN_HP_BAR = ResourceLoader.loadImage("res/images/ui/HealthBitGreen.png")
-	    .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
-    private static final Image YELLOW_HP_BAR = ResourceLoader.loadImage("res/images/ui/HealthBitYellow.png")
-	    .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
-    private static final Image RED_HP_BAR = ResourceLoader.loadImage("res/images/ui/HealthBitRed.png")
-	    .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
+    
+    
+private static final Image GREEN_HP = ResourceLoader.loadImage("res/images/ui/GreenHp.png")
+        .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
+private static final Image BLACK_HP = ResourceLoader.loadImage("res/images/ui/Black.png")
+        .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
+private static final Image END_HP = ResourceLoader.loadImage("res/images/ui/EndHp.png")
+        .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
+private static final Image YELLOW_HP = ResourceLoader.loadImage("res/images/ui/YellowHp.png")
+        .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
+private static final Image RED_HP = ResourceLoader.loadImage("res/images/ui/RedHp.png")
+        .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
 
     private Collider bounds;
     private BufferedImage backgroundImage;
@@ -149,26 +149,35 @@ public class GameScene extends SceneWithKeys {
 	}
     }
 
-    private void drawHealthBar(Graphics g) {
-	double healthProportion = player.getCurrentHealth() / player.getMaxHealth();
-	Image frame;
-	Image bar;
-	if (healthProportion < 0.33) {
-	    frame = RED_HP_FRAME;
-	    bar = RED_HP_BAR;
-	} else if (healthProportion < 0.66) {
-	    frame = YELLOW_HP_FRAME;
-	    bar = YELLOW_HP_BAR;
-	} else {
-	    frame = GREEN_HP_FRAME;
-	    bar = GREEN_HP_BAR;
-	}
-	int numBars = (int) Math.ceil(healthProportion * 15);
-	for (int i = 0; i < numBars; i++) {
-	    g.drawImage(bar, Main.WIDTH - 391 + i * 23, 43, null);
-	}
-	g.drawImage(frame, Main.WIDTH - 400, 35, null);
+ private void drawHealthBar(Graphics g) {
+    double healthProportion = player.getCurrentHealth() / player.getMaxHealth();
+    int totalBlocks = (int) player.getMaxHealth();  // Общее количество блоков HP
+    int numBars = (int) Math.ceil(healthProportion * totalBlocks); // Количество активных блоков
+    int blockWidth = 23; // Ширина одного блока HP
+    int padding = 10; // Отступ от правого края экрана
+    int xOffset = Main.WIDTH - (totalBlocks * blockWidth) - padding; // Начальная позиция для отрисовки с учетом отступа
+
+    // Отрисовка рамки или фона для индикатора здоровья
+    g.drawImage(END_HP, xOffset - END_HP.getWidth(null), 35, null);
+
+    // Отрисовка блоков HP с изменением цвета
+    for (int i = 0; i < totalBlocks; i++) {
+        Image hpBlock;
+        if (i < numBars) {
+            // Определяем цвет блока в зависимости от уровня здоровья
+            if (healthProportion < 0.33) {
+                hpBlock = RED_HP; // Красный цвет
+            } else if (healthProportion < 0.66) {
+                hpBlock = YELLOW_HP; // Желтый цвет
+            } else {
+                hpBlock = GREEN_HP; // Зеленый цвет
+            }
+            g.drawImage(hpBlock, xOffset + i * blockWidth, 35, null); // Отрисовка активного блока
+        } else {
+            g.drawImage(BLACK_HP, xOffset + i * blockWidth, 35, null); // Отрисовка блока, если HP меньше
+        }
     }
+}
 
     public PlayerShip getPlayer() {
 	return player;
