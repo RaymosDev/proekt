@@ -1,10 +1,9 @@
 package impl;
 
-import java.awt.Image;
-
 import gameEngine.Game;
 import gameEngine.ResourceLoader;
 import impl.scenes.MainMenuScene;
+import java.awt.Image;
 
 public class Main {
     public static final int WIDTH = 1800;
