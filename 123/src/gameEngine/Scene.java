@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Represents a scene that can be opened by the Game. Scenes are made up of
- * SceneObjects such as Entities11111.
+ * SceneObjects such as Entities.
  * 
  * @author Connor Reinholdtsen
  */
