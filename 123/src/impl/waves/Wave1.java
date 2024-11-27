@@ -8,7 +8,7 @@ import java.util.Random;
 public class Wave1 extends Wave {
     private static final double BASE_ENEMY_SPAWN_PERIOD = 0.75;
     private static final int BASE_MAX_ENEMY_COUNT = 20;
-
+    private GameScene gameScene;
     private double modifiedEnemySpawnPeriod;
     private int modifiedMaxEnemyCount;
     private int enemyCount = 0;
@@ -17,7 +17,8 @@ public class Wave1 extends Wave {
     private Random random = new Random();
     private int lastSpawnedEnemyType = -1; // Инициализируем с -1, чтобы избежать совпадений
 
-    public Wave1() {
+    public Wave1(GameScene gameScene) {
+        this.gameScene = gameScene;
         modifiedEnemySpawnPeriod = BASE_ENEMY_SPAWN_PERIOD / Main.difficulty.getModifier();
         modifiedMaxEnemyCount = (int) (BASE_MAX_ENEMY_COUNT * Main.difficulty.getModifier());
         enemyCount = 0;
@@ -64,7 +65,12 @@ public class Wave1 extends Wave {
         GameScene scene = (GameScene) Game.getInstance().getOpenScene();
         if (enemyCount >= modifiedMaxEnemyCount) {
             scene.removeObject(this);
-            scene.addObject(new Wave2());
+            scene.addObject(new Wave2(scene)); // Передаем ссылку на GameScene в следующую волну
         }
+    }
+
+    @Override
+    protected String getWaveMessage() {
+        return "NEW WAVE"; // Сообщение для первой волны
     }
 }
