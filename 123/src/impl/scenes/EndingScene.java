@@ -121,47 +121,23 @@ public class EndingScene extends SceneWithKeys {
      */
 
     public int getHighScore() throws FileNotFoundException {
-        File highScoreFile;
-        String userProfile = System.getProperty("user.home");
-        int highScore = 0;
+    File highScoreFile;
+    int highScore = 0;
 
-        if (os.contains("Windows")) {
-            if (!Files.exists(Paths.get(userProfile + "/AppData/Local/MeteorRush/"))) {
-                createFolderWindows();
-            }
-            highScoreFile = new File(userProfile + "/AppData/Local/MeteorRush/highScore.txt");
-        } else {
-            // Для других операционных систем, например, Linux или Mac, возвращаем 0
-            return 0;
+    // Путь к файлу высокого счета в папке с игрой
+    highScoreFile = new File("highScore.txt");
+
+    if (highScoreFile.exists()) {
+        Scanner scanner = new Scanner(highScoreFile);
+        if (scanner.hasNext()) {
+            highScore = scanner.nextInt();
         }
-
-        if (highScoreFile.exists()) {
-            Scanner scanner = new Scanner(highScoreFile);
-            if (scanner.hasNext()) {
-                highScore = scanner.nextInt();
-            }
-            scanner.close();
-        }
-        return highScore;
+        scanner.close();
     }
+    return highScore;
+}
 
-    /**
-     * Creates a folder called MetoerRush on a Mac OS
-     */
-    public void createFolderMac() {
-	String userProfile = System.getProperty("user.home");
-	File highScoreDirectory = new File(userProfile + "/Library/Application Support/MeteorRush/");
-	highScoreDirectory.mkdir();
-    }
-
-    /**
-     * Creates a folder called MetoerRush on a Windows OS
-     */
-    public void createFolderWindows() {
-	String userProfile = System.getProperty("user.home");
-	File highScoreDirectory = new File(userProfile + "/AppData/Local/MeteorRush/");
-	highScoreDirectory.mkdir();
-    }
+   
 
     /**
      * Saves the high score in a file that can be read again even when the game is
@@ -171,23 +147,18 @@ public class EndingScene extends SceneWithKeys {
      * @throws IOException
      */
     public void setHighScore(int highScore) throws IOException {
-	File highScoreFile;
-	String userProfile = System.getProperty("user.home");
-	if (os.contains("Mac")) {
-	    highScoreFile = new File(userProfile + "/Library/Application Support/MeteorRush/highScore.txt");
-	} else if (os.contains("Windows")) {
-	    highScoreFile = new File(userProfile + "/AppData/Local/MeteorRush/highScore.txt");
-	} else {
-	    // e.g. linux
-	    return;
-	}
-	highScoreFile.delete();
-	highScoreFile.createNewFile();
-	FileWriter fw = new FileWriter(highScoreFile);
-	String highScoreString = "" + highScore;
-	fw.write(highScoreString);
-	fw.close();
+    File highScoreFile = new File("highScore.txt");
+    
+    // Создаем файл, если он не существует
+    if (!highScoreFile.exists()) {
+        highScoreFile.createNewFile();
     }
+    
+    FileWriter fw = new FileWriter(highScoreFile);
+    String highScoreString = "" + highScore;
+    fw.write(highScoreString);
+    fw.close();
+}
 
     @Override
     public void dispose() {
