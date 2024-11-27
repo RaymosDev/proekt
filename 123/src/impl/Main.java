@@ -18,5 +18,3 @@ public class Main {
 	game.loadScene(new MainMenuScene());
     }
 }
-
-
