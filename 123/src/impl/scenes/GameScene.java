@@ -73,7 +73,7 @@ private static final Image RED_HP = ResourceLoader.loadImage("res/images/ui/RedH
 	};
 	bounds.setActive(true);
 	backgroundImage = ResourceLoader.toBufferedImage(
-		ResourceLoader.loadImage("res/images/backgrounds/GameBackground.png").getScaledInstance(24750, 825, 0));
+	ResourceLoader.loadImage("res/images/backgrounds/GameBackground.png").getScaledInstance(24750, 825, 0));
 	backgroundMusic = ResourceLoader.loadAudioClip("res/audio/GameMusic.wav");
 	backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
 	currentPauseOption = 0;
