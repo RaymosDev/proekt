@@ -44,7 +44,7 @@ public class MainMenuScene extends SceneWithKeys {
     @Override
     public void initialize() {
         backgroundImage = ResourceLoader.toBufferedImage(
-            ResourceLoader.loadImage("res/images/backgrounds/GameBackground.png").getScaledInstance(24750, 825, 0));
+        ResourceLoader.loadImage("res/images/backgrounds/GameBackground.png").getScaledInstance(24750, 825, 0));
         title = ResourceLoader.loadImage("res/images/ui/Title.png").getScaledInstance(889, 322, 0);
 
         backgroundMusic = ResourceLoader.loadAudioClip("res/audio/MainMenuMusic.wav");
@@ -53,32 +53,40 @@ public class MainMenuScene extends SceneWithKeys {
     }
 
     @Override
-    public void render(Graphics g) {
-        InputManager inputManager = Game.getInstance().getInputManager();
-        g.setFont(UI_FONT);
-        g.setColor(Color.WHITE);
+public void render(Graphics g) {
+    InputManager inputManager = Game.getInstance().getInputManager();
+    g.setFont(UI_FONT);
+    g.setColor(Color.WHITE);
 
-        double time = Game.getInstance().getTime();
-        int x = (int) (time * 50 % 22195);
-        Image backgroundSubImage = backgroundImage.getSubimage(x, 0, Main.WIDTH, Main.HEIGHT);
-        g.drawImage(backgroundSubImage, 0, 0, null);
+    double time = Game.getInstance().getTime();
+    int x = (int) (time * 50 % 22195);
+    Image backgroundSubImage = backgroundImage.getSubimage(x, 0, Main.WIDTH, Main.HEIGHT);
+    g.drawImage(backgroundSubImage, 0, 0, null);
 
-        // render background and text
-        if (sceneOption.equals("Main")) {
-            g.drawImage(title, 455, 45, null);
-            currentOption = upDown(inputManager, MAIN_MENU_OPTIONS, currentOption);
-            renderScrollingMenus(g, MAIN_MENU_OPTIONS, currentOption);
-            mainMenuEnter(inputManager);
-        } else if (sceneOption.equals("Difficulty")) {
-            g.drawImage(title, 455, 45, null);
-            currentOption = upDown(inputManager, SETTINGS_OPTIONS, currentOption);
-            renderScrollingMenus(g, SETTINGS_OPTIONS, currentOption);
-            settingsMenuEnter(inputManager);
-        } else if (sceneOption.equals("Credits")) {
-            creditsScene(g, inputManager);
-        }
-        super.render(g);
+    // render background and text
+    if (sceneOption.equals("Main")) {
+        // Центрируем изображение title
+        int imageWidth = title.getWidth(null); // Получаем ширину изображения
+        int xTitle = (Main.WIDTH - imageWidth) / 2; // Вычисляем координату X для центрирования
+        g.drawImage(title, xTitle, 45, null); // Рисуем изображение по центру
+
+        currentOption = upDown(inputManager, MAIN_MENU_OPTIONS, currentOption);
+        renderScrollingMenus(g, MAIN_MENU_OPTIONS, currentOption);
+        mainMenuEnter(inputManager);
+    } else if (sceneOption.equals("Difficulty")) {
+        // Центрируем изображение title
+        int imageWidth = title.getWidth(null); // Получаем ширину изображения
+        int xTitle = (Main.WIDTH - imageWidth) / 2; // Вычисляем координату X для центрирования
+        g.drawImage(title, xTitle, 45, null); // Рисуем изображение по центру
+
+        currentOption = upDown(inputManager, SETTINGS_OPTIONS, currentOption);
+        renderScrollingMenus(g, SETTINGS_OPTIONS, currentOption);
+        settingsMenuEnter(inputManager);
+    } else if (sceneOption.equals("Credits")) {
+        creditsScene(g, inputManager);
     }
+    super.render(g);
+}
 
     /**
      * Decides what enter will do depending on the which option is highlighted,
@@ -135,17 +143,29 @@ public class MainMenuScene extends SceneWithKeys {
      * @param inputManager
      */
     public void creditsScene(Graphics g, InputManager inputManager) {
-        g.drawString("ТИТРЫ", 825, 105);
-        String[] lines = { "Разработчики:",
-            "", "Мищиряков Р. А.", "Степанов М. Д.", "Евдокимов П. С.", "",
-           };
-        for (int i = 0; i < lines.length; i++) {
-            String line = lines[i];
-            int width = g.getFontMetrics().stringWidth(line);
-            g.drawString(lines[i], 900 - width / 2, 190 + i * 50);
-        }
-        returnToMenuOption(g, inputManager);
+    g.setFont(UI_FONT); // Убедитесь, что шрифт установлен
+    String title = "ТИТРЫ";
+    int containerWidth = Main.WIDTH; // Получаем ширину контейнера
+
+    // Центрируем заголовок "ТИТРЫ"
+    int titleWidth = g.getFontMetrics().stringWidth(title);
+    int titleX = (containerWidth - titleWidth) / 2; // Вычисляем координату X для заголовка
+    g.drawString(title, titleX, 105);
+
+    String[] lines = { "Разработчики:",
+        "", "Мищиряков Р. А.", "Степанов М. Д.", "Евдокимов П. С.", "",
+    };
+    
+    for (int i = 0; i < lines.length; i++) {
+        String line = lines[i];
+        int width = g.getFontMetrics().stringWidth(line);
+        // Центрируем текст по оси X
+        int textX = (containerWidth - width) / 2; // Вычисляем координату X для текста
+        g.drawString(line, textX, 190 + i * 50);
     }
+    
+    returnToMenuOption(g, inputManager);
+}
 
     /**
      * Creates a big red RETURN TO MENU button that returns the user to the main
@@ -154,15 +174,23 @@ public class MainMenuScene extends SceneWithKeys {
      * @param g
      * @param inputManager
      */
-    public void returnToMenuOption(Graphics g, InputManager inputManager) {
-        if (Game.getInstance().getTime() % 1.5 < 0.9) {
-            g.drawString("НАЖМИТЕ ENTER", 735, 735);
-        }
-        if (inputManager.getKeyDown(KeyEvent.VK_ENTER)) {
-            currentOption = 0;
-            onSound();
-            addObject(new FadeIn(1.0));
-            sceneOption = "Main"; // Установите сцену на "Main" при возврате
-        }
+   public void returnToMenuOption(Graphics g, InputManager inputManager) {
+    g.setFont(UI_FONT); // Убедитесь, что шрифт установлен
+    String prompt = "НАЖМИТЕ ENTER";
+    int containerWidth = Main.WIDTH; // Получаем ширину контейнера
+
+    if (Game.getInstance().getTime() % 1.5 < 0.9) {
+        int textWidth = g.getFontMetrics().stringWidth(prompt);
+        // Центрируем текст по оси X
+        int textX = (containerWidth - textWidth) / 2; // Вычисляем координату X для текста
+        g.drawString(prompt, textX, 735);
     }
+
+    if (inputManager.getKeyDown(KeyEvent.VK_ENTER)) {
+        currentOption = 0;
+        onSound();
+        addObject(new FadeIn(1.0));
+        sceneOption = "Main"; // Установите сцену на "Main" при возврате
+    }
+}
 }

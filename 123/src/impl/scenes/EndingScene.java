@@ -70,27 +70,43 @@ public class EndingScene extends SceneWithKeys {
     }
 
     public void render(Graphics g) {
-	g.drawImage(backgroundImage, 0, 0, null);
-	super.render(g);
-	InputManager inputManager = Game.getInstance().getInputManager();
-	g.setColor(Color.WHITE);
-	g.setFont(DEATH_FONT);
-	g.drawString("ВЫ ПОГИБЛИ", 555, 180);
-	g.setFont(SCORE_FONT);
-	String scoreText = "Ваш счёт: " + score;
-	g.drawString(scoreText, 900 - g.getFontMetrics().stringWidth(scoreText) / 2, 275);
-	if (wasNewHighScore) {
-	    String highScoreText = "Новый рекорд!";
-	    g.drawString("Новый рекорд!", 900 - g.getFontMetrics().stringWidth(highScoreText) / 2, 360);
-	} else {
-	    String highScoreText = "Новый рекорд!";
-	    g.drawString("Ваш рекорд: " + highScore, 900 - g.getFontMetrics().stringWidth(highScoreText) / 2, 360);
-	}
-	g.setFont(UI_FONT);
-	currentOption = upDown(inputManager, ENDING_OPTIONS, currentOption);
-	renderScrollingMenus(g, ENDING_OPTIONS, currentOption);
-	endMenuEnter(inputManager);
+    g.drawImage(backgroundImage, 0, 0, null);
+    super.render(g);
+    InputManager inputManager = Game.getInstance().getInputManager();
+    g.setColor(Color.WHITE);
+    g.setFont(DEATH_FONT);
+    
+    // Центрируем текст "ВЫ ПОГИБЛИ"
+    String deathMessage = "ВЫ ПОГИБЛИ";
+    int containerWidth = Main.WIDTH;
+    int deathMessageWidth = g.getFontMetrics().stringWidth(deathMessage);
+    int deathMessageX = (containerWidth - deathMessageWidth) / 2; // Вычисляем координату X
+    g.drawString(deathMessage, deathMessageX, 180);
+
+    g.setFont(SCORE_FONT);
+    String scoreText = "Ваш счёт: " + score;
+    int scoreTextWidth = g.getFontMetrics().stringWidth(scoreText);
+    int scoreTextX = (containerWidth - scoreTextWidth) / 2; // Центрируем текст по оси X
+    g.drawString(scoreText, scoreTextX, 275);
+
+    if (wasNewHighScore) {
+        String highScoreText = "Новый рекорд!";
+        int highScoreTextWidth = g.getFontMetrics().stringWidth(highScoreText);
+        int highScoreTextX = (containerWidth - highScoreTextWidth) / 2; // Центрируем текст по оси X
+        g.drawString(highScoreText, highScoreTextX, 360);
+    } else {
+        String highScoreText = "Ваш рекорд: " + highScore;
+        int highScoreTextWidth = g.getFontMetrics().stringWidth(highScoreText);
+        int highScoreTextX = (containerWidth - highScoreTextWidth) / 2; // Центрируем текст по оси X
+        g.drawString(highScoreText, highScoreTextX, 360);
     }
+
+    g.setFont(UI_FONT);
+    currentOption = upDown(inputManager, ENDING_OPTIONS, currentOption);
+    renderScrollingMenus(g, ENDING_OPTIONS, currentOption);
+    endMenuEnter(inputManager);
+}
+
 
     /**
      * Decides what enter will do depending on the which option is highlighted,

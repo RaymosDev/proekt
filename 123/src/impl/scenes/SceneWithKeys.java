@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import gameEngine.InputManager;
 import gameEngine.ResourceLoader;
 import gameEngine.Scene;
+import impl.Main;
 
 /**
  *
@@ -31,22 +32,30 @@ public class SceneWithKeys extends Scene {
      * @param options: the options that can be selected
      */
     public void renderScrollingMenus(Graphics g, String[] options, int currentOption) {
-	Image buttonState;
-	g.setFont(UI_FONT);
-	for (int i = 0; i < options.length; i++) {
-	    if (currentOption == i) {
-		g.setColor(Color.WHITE);
-		buttonState = buttonSelected;
-	    } else {
-		g.setColor(Color.WHITE);
-		buttonState = button;
-	    }
-	    g.drawImage(buttonState, 730, 420 + 67 * i, null);
-	    String option = options[i];
-	    int width = g.getFontMetrics().stringWidth(option);
-	    g.drawString(option, 900 - width / 2, 462 + 67 * i);
-	}
+    Image buttonState;
+    g.setFont(UI_FONT);
+    int containerWidth = Main.WIDTH; // Получаем ширину контейнера
+
+    for (int i = 0; i < options.length; i++) {
+        if (currentOption == i) {
+            g.setColor(Color.WHITE);
+            buttonState = buttonSelected;
+        } else {
+            g.setColor(Color.WHITE);
+            buttonState = button;
+        }
+
+        // Центрируем кнопку по оси X
+        int buttonX = (containerWidth - buttonState.getWidth(null)) / 2; // Вычисляем координату X для кнопки
+        g.drawImage(buttonState, buttonX, 420 + 67 * i, null);
+
+        String option = options[i];
+        int width = g.getFontMetrics().stringWidth(option);
+        // Центрируем текст по оси X
+        int textX = (containerWidth - width) / 2; // Вычисляем координату X для текста
+        g.drawString(option, textX, 462 + 67 * i);
     }
+}
 
     /**
      * based on whether the up or down keys are clicked, the highlighted option is
