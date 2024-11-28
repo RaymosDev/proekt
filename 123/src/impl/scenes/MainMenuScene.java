@@ -183,7 +183,7 @@ public void render(Graphics g) {
         int textWidth = g.getFontMetrics().stringWidth(prompt);
         // Центрируем текст по оси X
         int textX = (containerWidth - textWidth) / 2; // Вычисляем координату X для текста
-        g.drawString(prompt, textX, 735);
+        g.drawString(prompt, textX, 700);
     }
 
     if (inputManager.getKeyDown(KeyEvent.VK_ENTER)) {
