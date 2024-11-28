@@ -151,13 +151,19 @@ public class GameScene extends SceneWithKeys {
         
         drawHealthBar(g);
         if (paused) {
-            Color filter = new Color(0, 0, 0, 150);
-            g.setColor(filter);
-            g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
-            g.setColor(Color.WHITE);
-            g.drawString("ПАУЗА", 800, 350);
-            renderScrollingMenus(g, PAUSE_MENU_OPTIONS, currentPauseOption);
-        }
+    Color filter = new Color(0, 0, 0, 150);
+    g.setColor(filter);
+    g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
+    
+    g.setColor(Color.WHITE);
+    String pauseMessage = "ПАУЗА";
+    int containerWidth = Main.WIDTH;
+    int pauseMessageWidth = g.getFontMetrics().stringWidth(pauseMessage);
+    int pauseMessageX = (containerWidth - pauseMessageWidth) / 2; // Вычисляем координату X для центрирования
+    g.drawString(pauseMessage, pauseMessageX, 350);
+    
+    renderScrollingMenus(g, PAUSE_MENU_OPTIONS, currentPauseOption);
+}
     }
 
     private void drawHealthBar(Graphics g) {
