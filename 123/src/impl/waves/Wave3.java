@@ -4,7 +4,7 @@ import gameEngine.Game;
 import impl.Main;
 import impl.scenes.GameScene;
 
-public class Wave2 extends Wave {
+public class Wave3 extends Wave {
     private static final double BASE_ENEMY_SPAWN_PERIOD = 1.0;
     private static final int BASE_MAX_ENEMY_COUNT = 20;
     private GameScene gameScene;
@@ -14,7 +14,7 @@ public class Wave2 extends Wave {
     private double startTime;
     private double nextSpawnTime;
 
-    public Wave2(GameScene gameScene) {
+    public Wave3(GameScene gameScene) {
         this.gameScene = gameScene;
         modifiedEnemySpawnPeriod = BASE_ENEMY_SPAWN_PERIOD / Main.difficulty.getModifier();
         modifiedMaxEnemyCount = (int) (BASE_MAX_ENEMY_COUNT * Main.difficulty.getModifier());
@@ -32,14 +32,14 @@ public class Wave2 extends Wave {
         }
     }
 
-    private void spawnEnemy() {
+   private void spawnEnemy() {
        enemyCount++;
-	spawnJavelin();
+        spawnHornet();
 
         if (enemyCount >= modifiedMaxEnemyCount) {
             GameScene scene = (GameScene) Game.getInstance().getOpenScene();
             scene.removeObject(this);
-            scene.addObject(new Wave3(scene)); // Передаем ссылку на GameScene в следующую волну
+            scene.addObject(new Wave4(scene)); // Передаем ссылку на GameScene в следующую волну
         }
     }
 
@@ -48,3 +48,4 @@ public class Wave2 extends Wave {
         return "NEW WAVE"; // Сообщение для первой волны
     }
 }
+
