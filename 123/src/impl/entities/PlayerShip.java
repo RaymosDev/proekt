@@ -16,31 +16,16 @@ import impl.Main;
 import impl.scenes.GameScene;
 
 public class PlayerShip extends Entity implements DamagableEntity {
-    private static final int ORIGINAL_WIDTH = 147;
-    private static final int ORIGINAL_HEIGHT = 70;
+    private static final int WIDTH = 147;
+    private static final int HEIGHT = 70;
     private static final double LASER_COOLDOWN = 0.22;
-    private static final double ORIGINAL_SPEED = 600; // Оригинальная скорость
+    private static final double SPEED = 600;
     private static final double MAX_HEALTH = 15;
 
     private static final double LASER_DAMAGE_AMOUNT = 1;
-    private static final double ORIGINAL_LASER_SPEED = 1500; // Оригинальная скорость лазера
+    private static final double LASER_SPEED = 1500;
     private static final int LASER_WIDTH = 50;
     private static final int LASER_HEIGHT = 10;
-
-    private static final int TARGET_WIDTH = 1800; // Ширина целевого разрешения
-    private static final int TARGET_HEIGHT = 800; // Высота целевого разрешения
-
-    // Текущие размеры
-    private static final int CURRENT_WIDTH = Main.WIDTH; // Используйте ваше текущее разрешение
-    private static final int CURRENT_HEIGHT = Main.HEIGHT;
-
-    // Масштабированные размеры
-    private static final int WIDTH = scaleSize(ORIGINAL_WIDTH);
-    private static final int HEIGHT = scaleSize(ORIGINAL_HEIGHT);
-
-    // Масштабированная скорость
-    private static final double SPEED = scaleSpeed(ORIGINAL_SPEED);
-    private static final double LASER_SPEED = scaleSpeed(ORIGINAL_LASER_SPEED); // Масштабированная скорость лазера
 
     public static final Image PLAYER_1 = ResourceLoader.loadImage("res/images/entities/player/Player1.png")
         .getScaledInstance(WIDTH, HEIGHT, 0);
@@ -48,7 +33,7 @@ public class PlayerShip extends Entity implements DamagableEntity {
         .getScaledInstance(WIDTH, HEIGHT, 0);
     
     public static final Image PLAYER_LASER = ResourceLoader.loadImage("res/images/entities/player/PlayerLaser.png")
-        .getScaledInstance(scaleSize(LASER_WIDTH), scaleSize(LASER_HEIGHT), 0);
+        .getScaledInstance(LASER_WIDTH, LASER_HEIGHT, 0);
 
     private Image sprite1;
     private Image sprite2;
@@ -62,18 +47,6 @@ public class PlayerShip extends Entity implements DamagableEntity {
         currentHealth = MAX_HEALTH;
     }
 
-    private static int scaleSize(int originalSize) {
-        double scaleX = (double) CURRENT_WIDTH / TARGET_WIDTH;
-        double scaleY = (double) CURRENT_HEIGHT / TARGET_HEIGHT;
-        return (int) (originalSize * Math.min(scaleX, scaleY)); // Применяем масштабирование
-    }
-
-    private static double scaleSpeed(double originalSpeed) {
-        double scaleX = (double) CURRENT_WIDTH / TARGET_WIDTH;
-        double scaleY = (double) CURRENT_HEIGHT / TARGET_HEIGHT;
-        return originalSpeed * Math.min(scaleX, scaleY); // Применяем масштабирование
-    }
-
     @Override
     public void tick() {
         if (((GameScene) Game.getInstance().getOpenScene()).isPaused()) {
@@ -83,6 +56,8 @@ public class PlayerShip extends Entity implements DamagableEntity {
         double horizontal = input.getHorizontalAxis();
         double vertical = input.getVerticalAxis();
         Vector2 move = new Vector2(horizontal, -vertical).multiply(Game.getInstance().getDeltaTime() * SPEED);
+
+       
 
         Vector2 position = getPosition();
         position.add(move);
@@ -117,15 +92,15 @@ public class PlayerShip extends Entity implements DamagableEntity {
 
     @Override
     public void render(Graphics g) {
-        Vector2 position = getPosition();
-        Image sprite;
-        double time = Game.getInstance().getTime();
-        if (time % 0.2 < 0.1) {
-            sprite = sprite1;
-        } else {
-            sprite = sprite2;
-        }
-        g.drawImage(sprite, (int) (position.getX() - WIDTH / 2.0), (int) (position.getY() - HEIGHT / 2.0), null);
+	Vector2 position = getPosition();
+	Image sprite;
+	double time = Game.getInstance().getTime();
+	if (time % 0.2 < 0.1) {
+	    sprite = sprite1;
+	} else {
+	    sprite = sprite2;
+	}
+	g.drawImage(sprite, (int) (position.getX() - WIDTH / 2.0), (int) (position.getY() - HEIGHT / 2.0), null);
     }
 
     public double getCurrentHealth() {
@@ -169,14 +144,14 @@ public class PlayerShip extends Entity implements DamagableEntity {
 
     public static class Laser extends Projectile {
         Laser(Vector2 position) {
-            super(position, new Vector2(scaleSize(LASER_WIDTH), scaleSize(LASER_HEIGHT)), new Vector2(LASER_SPEED, 0));
+            super(position, new Vector2(LASER_WIDTH, LASER_HEIGHT), new Vector2(LASER_SPEED, 0));
         }
 
         @Override
         public void render(Graphics g) {
             Vector2 position = getPosition();
-            g.drawImage(PLAYER_LASER, (int) (position.getX() - scaleSize(LASER_WIDTH) / 2.0),
-                (int) (position.getY() - scaleSize(LASER_HEIGHT) / 2.0), null);
+            g.drawImage(PLAYER_LASER, (int) (position.getX() - LASER_WIDTH / 2.0),
+                (int) (position.getY() - LASER_HEIGHT / 2.0), null);
         }
 
         @Override
@@ -185,11 +160,11 @@ public class PlayerShip extends Entity implements DamagableEntity {
                 ((DamagableEntity) other).damage(LASER_DAMAGE_AMOUNT);
                 Scene scene = Game.getInstance().getOpenScene();
                 scene.removeObject(this);
-                scene.addObject(new LaserSpark(getPosition().add(scaleSize(LASER_WIDTH) / 2.0, 0)));
+                scene.addObject(new LaserSpark(getPosition().add(LASER_WIDTH / 2.0, 0)));
             } else if (other instanceof Projectile) {
                 Scene scene = Game.getInstance().getOpenScene();
                 scene.removeObject(this);
-                scene.addObject(new LaserSpark(getPosition().add(scaleSize(LASER_WIDTH) / 2.0, 0)));
+                scene.addObject(new LaserSpark(getPosition().add(LASER_WIDTH / 2.0, 0)));
             }
         }
 
@@ -204,7 +179,7 @@ public class PlayerShip extends Entity implements DamagableEntity {
         private static final int LASER_SPARK_HEIGHT = 35;
         private static final Image LASER_SPARK = ResourceLoader
             .loadImage("res/images/entities/player/PlayerLaserSpark.png")
-            .getScaledInstance(scaleSize(LASER_SPARK_WIDTH), scaleSize(LASER_SPARK_HEIGHT), 0);
+            .getScaledInstance(LASER_SPARK_WIDTH, LASER_SPARK_HEIGHT, 0);
 
         private Vector2 position;
         private double deathTime;
@@ -227,8 +202,8 @@ public class PlayerShip extends Entity implements DamagableEntity {
 
         @Override
         public void render(Graphics g) {
-            int x = (int) (position.getX() - scaleSize(LASER_SPARK_WIDTH) / 2.0);
-            int y = (int) (position.getY() - scaleSize(LASER_SPARK_HEIGHT) / 2.0);
+            int x = (int) (position.getX() - LASER_SPARK_WIDTH / 2.0);
+            int y = (int) (position.getY() - LASER_SPARK_HEIGHT / 2.0);
             g.drawImage(LASER_SPARK, x, y, null);
         }
 

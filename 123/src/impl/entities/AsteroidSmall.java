@@ -13,17 +13,10 @@ import impl.scenes.GameScene;
 public class AsteroidSmall extends Entity implements DamagableEntity {
     private static final double BASE_DAMAGE_AMOUNT = 1;
     private static final double MAX_HEALTH = 3;
-    private static final double ORIGINAL_BASE_SPEED = 500; // Оригинальная скорость
+    private static final double BASE_SPEED = 500;
     private static final int BASE_SCORE_VALUE = 20;
-
-    // Оригинальные размеры
-    private static final int ORIGINAL_WIDTH = 100;
-    private static final int ORIGINAL_HEIGHT = 100;
-
-    // Масштабированные размеры
-    private static final int WIDTH = scaleSize(ORIGINAL_WIDTH);
-    private static final int HEIGHT = scaleSize(ORIGINAL_HEIGHT);
-    
+    private static final int WIDTH = 100;
+    private static final int HEIGHT = 100;
     public static final Image SPRITE = ResourceLoader.loadImage("res/images/entities/asteroids/AsteroidSmall.png")
 	    .getScaledInstance(WIDTH, HEIGHT, 0);
 
@@ -33,20 +26,8 @@ public class AsteroidSmall extends Entity implements DamagableEntity {
     public AsteroidSmall(Vector2 position, Vector2 direction) {
 	super(position, new Vector2(WIDTH, HEIGHT));
 	double difficultyModifier = Main.difficulty.getModifier();
-	this.velocity = direction.clone().normalize().multiply(scaleSpeed(ORIGINAL_BASE_SPEED) * difficultyModifier);
+	this.velocity = direction.clone().normalize().multiply(BASE_SPEED * difficultyModifier);
 	currentHealth = MAX_HEALTH * difficultyModifier;
-    }
-
-    private static int scaleSize(int originalSize) {
-        double scaleX = (double) Main.WIDTH / 1800; // Используйте ваше целевое разрешение
-        double scaleY = (double) Main.HEIGHT / 800; // Используйте ваше целевое разрешение
-        return (int) (originalSize * Math.min(scaleX, scaleY)); // Применяем масштабирование
-    }
-
-    private static double scaleSpeed(double originalSpeed) {
-        double scaleX = (double) Main.WIDTH / 1800; // Используйте ваше целевое разрешение
-        double scaleY = (double) Main.HEIGHT / 800; // Используйте ваше целевое разрешение
-        return originalSpeed * Math.min(scaleX, scaleY); // Применяем масштабирование
     }
 
     @Override
