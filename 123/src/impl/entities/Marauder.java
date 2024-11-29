@@ -13,23 +13,29 @@ import impl.Main;
 import impl.scenes.GameScene;
 
 public class Marauder extends Entity implements DamagableEntity {
-    private static final int WIDTH = 250;
-    private static final int HEIGHT = 250;
+    private static final int ORIGINAL_WIDTH = 250;
+    private static final int ORIGINAL_HEIGHT = 250;
     private static final int MAX_HEALTH = 8;
-    private static final double SPEED = 200.0;
+    private static final double ORIGINAL_SPEED = 200.0; // Оригинальная скорость
     private static final int SCORE_VALUE = 300;
     private static final double HEALTH_DROP_CHANCE = 0.25;
     private static final double BASE_CONTACT_DAMAGE = 2.0;
-    private static final int LARGE_ORB_WIDTH = 50;
-    private static final int LARGE_ORB_HEIGHT = 50;
-    private static final double LARGE_ORB_SPEED = 500;
+    private static final int ORIGINAL_LARGE_ORB_WIDTH = 50;
+    private static final int ORIGINAL_LARGE_ORB_HEIGHT = 50;
+    private static final double ORIGINAL_LARGE_ORB_SPEED = 500; // Оригинальная скорость большого орба
     private static final double LARGE_ORB_LIFETIME = 0.7;
     private static final double LARGE_ORB_COOLDOWN = 3.0;
     private static final double BASE_LARGE_ORB_DAMAGE = 3.0;
-    private static final int SMALL_ORB_WIDTH = 30;
-    private static final int SMALL_ORB_HEIGHT = 30;
-    private static final int SMALL_ORB_SPEED = 600;
+    private static final int ORIGINAL_SMALL_ORB_WIDTH = 30;
+    private static final int ORIGINAL_SMALL_ORB_HEIGHT = 30;
     private static final double BASE_SMALL_ORB_DAMAGE = 1.0;
+
+    private static final int WIDTH = scaleSize(ORIGINAL_WIDTH);
+    private static final int HEIGHT = scaleSize(ORIGINAL_HEIGHT);
+    private static final int LARGE_ORB_WIDTH = scaleSize(ORIGINAL_LARGE_ORB_WIDTH);
+    private static final int LARGE_ORB_HEIGHT = scaleSize(ORIGINAL_LARGE_ORB_HEIGHT);
+    private static final int SMALL_ORB_WIDTH = scaleSize(ORIGINAL_SMALL_ORB_WIDTH);
+    private static final int SMALL_ORB_HEIGHT = scaleSize(ORIGINAL_SMALL_ORB_HEIGHT);
 
     private static final Image SPRITE_1 = ResourceLoader.loadImage("res/images/entities/marauder/Marauder1.png")
 	    .getScaledInstance(WIDTH, HEIGHT, 0);
@@ -42,17 +48,31 @@ public class Marauder extends Entity implements DamagableEntity {
 
     private double health;
     private double nextFireTime;
+    private double speed; // Масштабированная скорость
 
     public Marauder(Vector2 position) {
 	super(position, new Vector2(WIDTH, HEIGHT));
 	health = MAX_HEALTH;
 	nextFireTime = Game.getInstance().getTime() + 2;
+	speed = scaleSpeed(ORIGINAL_SPEED); // Масштабируем скорость
+    }
+
+    private static int scaleSize(int originalSize) {
+        double scaleX = (double) Main.WIDTH / 1800; // Используйте ваше целевое разрешение
+        double scaleY = (double) Main.HEIGHT / 800; // Используйте ваше целевое разрешение
+        return (int) (originalSize * Math.min(scaleX, scaleY)); // Применяем масштабирование
+    }
+
+    private static double scaleSpeed(double originalSpeed) {
+        double scaleX = (double) Main.WIDTH / 1800; // Используйте ваше целевое разрешение
+        double scaleY = (double) Main.HEIGHT / 800; // Используйте ваше целевое разрешение
+        return originalSpeed * Math.min(scaleX, scaleY); // Применяем масштабирование
     }
 
     @Override
     public void tick() {
 	Vector2 position = getPosition();
-	position.add(-SPEED * Game.getInstance().getDeltaTime(), 0);
+	position.add(-speed * Game.getInstance().getDeltaTime(), 0); // Используем масштабированную скорость
 	setPosition(position);
 	double currentTime = Game.getInstance().getTime();
 	if (currentTime > nextFireTime) {
@@ -113,7 +133,7 @@ public class Marauder extends Entity implements DamagableEntity {
 	private double deathTime;
 
 	public LargeOrb(Vector2 position) {
-	    super(position, new Vector2(LARGE_ORB_WIDTH, LARGE_ORB_HEIGHT), new Vector2(-LARGE_ORB_SPEED, 0));
+	    super(position, new Vector2(LARGE_ORB_WIDTH, LARGE_ORB_HEIGHT), new Vector2(-scaleSpeed(ORIGINAL_LARGE_ORB_SPEED), 0)); // Масштабируем скорость большого орба
 	    deathTime = Game.getInstance().getTime() + LARGE_ORB_LIFETIME;
 	}
 
@@ -135,7 +155,7 @@ public class Marauder extends Entity implements DamagableEntity {
 	    ResourceLoader.loadAudioClip("res/audio/MarauderLargeOrbBlowUp.wav").start();
 	    Scene scene = Game.getInstance().getOpenScene();
 	    scene.removeObject(this);
-	    Vector2 smallOrbVelocity = Vector2.fromAngle(2.0 * Math.PI / 3.0, SMALL_ORB_SPEED);
+	    Vector2 smallOrbVelocity = Vector2.fromAngle(2.0 * Math.PI / 3.0, scaleSpeed(600)); // Масштабируем скорость малых орбов
 	    for (int i = 0; i < 5; i++) {
 		scene.addObject(new SmallOrb(getPosition(), smallOrbVelocity));
 		smallOrbVelocity.rotate(Math.PI / 6.0);

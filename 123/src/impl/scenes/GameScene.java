@@ -24,20 +24,21 @@ import java.util.List;
 public class GameScene extends SceneWithKeys {
     public static final double FIRST_WAVE_WAIT_TIME = 2.5;
     public static final double WAVE_REST_TIME = 5.0;
-    private static final Font UI_FONT = ResourceLoader.loadFont("res/Font.ttf", 50);
     private static final Vector2 PLAYER_START = new Vector2(250, Main.HEIGHT / 2);
     private final String[] PAUSE_MENU_OPTIONS = { "Продолжить", "Главное меню" };
 
+    private static final int ORIGINAL_BLOCK_WIDTH = 25; // Оригинальная ширина блока HP
+    private static final int ORIGINAL_BLOCK_HEIGHT = 35; // Оригинальная высота блока HP
     private static final Image GREEN_HP = ResourceLoader.loadImage("res/images/ui/GreenHp.png")
-            .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
+            .getScaledInstance(scaleSize(ORIGINAL_BLOCK_WIDTH), scaleSize(ORIGINAL_BLOCK_HEIGHT), 0);
     private static final Image BLACK_HP = ResourceLoader.loadImage("res/images/ui/Black.png")
-            .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
+            .getScaledInstance(scaleSize(ORIGINAL_BLOCK_WIDTH), scaleSize(ORIGINAL_BLOCK_HEIGHT), 0);
     private static final Image END_HP = ResourceLoader.loadImage("res/images/ui/EndHp.png")
-            .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
+            .getScaledInstance(scaleSize(ORIGINAL_BLOCK_WIDTH), scaleSize(ORIGINAL_BLOCK_HEIGHT), 0);
     private static final Image YELLOW_HP = ResourceLoader.loadImage("res/images/ui/YellowHp.png")
-            .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
+            .getScaledInstance(scaleSize(ORIGINAL_BLOCK_WIDTH), scaleSize(ORIGINAL_BLOCK_HEIGHT), 0);
     private static final Image RED_HP = ResourceLoader.loadImage("res/images/ui/RedHp.png")
-            .getScaledInstance((int) (10 * 2.5), (int) (14 * 2.5), 0);
+            .getScaledInstance(scaleSize(ORIGINAL_BLOCK_WIDTH), scaleSize(ORIGINAL_BLOCK_HEIGHT), 0);
 
     private Collider bounds;
     private BufferedImage backgroundImage;
@@ -141,8 +142,8 @@ public class GameScene extends SceneWithKeys {
         g.drawImage(backgroundSubImage, 0, 0, null);
         super.render(g);
         g.setColor(Color.WHITE);
-        g.setFont(UI_FONT);
-        g.drawString("Счёт: " + score, 50, 70);
+        g.setFont(getScaledFont(50)); // Получаем масштабированный шрифт
+        g.drawString("Счёт: " + score, 50, 60);
         
         // Отображаем сообщение о волне, если оно есть
         if (!waveMessage.isEmpty()) {
@@ -151,26 +152,26 @@ public class GameScene extends SceneWithKeys {
         
         drawHealthBar(g);
         if (paused) {
-    Color filter = new Color(0, 0, 0, 150);
-    g.setColor(filter);
-    g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
-    
-    g.setColor(Color.WHITE);
-    String pauseMessage = "ПАУЗА";
-    int containerWidth = Main.WIDTH;
-    int pauseMessageWidth = g.getFontMetrics().stringWidth(pauseMessage);
-    int pauseMessageX = (containerWidth - pauseMessageWidth) / 2; // Вычисляем координату X для центрирования
-    g.drawString(pauseMessage, pauseMessageX, 350);
-    
-    renderScrollingMenus(g, PAUSE_MENU_OPTIONS, currentPauseOption);
-}
+            Color filter = new Color(0, 0, 0, 150);
+            g.setColor(filter);
+            g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
+            
+            g.setColor(Color.WHITE);
+            String pauseMessage = "ПАУЗА";
+            int containerWidth = Main.WIDTH;
+            int pauseMessageWidth = g.getFontMetrics().stringWidth(pauseMessage);
+            int pauseMessageX = (containerWidth - pauseMessageWidth) / 2; // Вычисляем координату X для центрирования
+            g.drawString(pauseMessage, pauseMessageX, 350);
+            
+            renderScrollingMenus(g, PAUSE_MENU_OPTIONS, currentPauseOption);
+        }
     }
 
     private void drawHealthBar(Graphics g) {
         double healthProportion = player.getCurrentHealth() / player.getMaxHealth();
         int totalBlocks = (int) player.getMaxHealth();  // Общее количество блоков HP
         int numBars = (int) Math.ceil(healthProportion * totalBlocks); // Количество активных блоков
-        int blockWidth = 23; // Ширина одного блока HP
+        int blockWidth = scaleSize(ORIGINAL_BLOCK_WIDTH); // Масштабированная ширина одного блока HP
         int padding = 10; // Отступ от правого края экрана
         int xOffset = Main.WIDTH - (totalBlocks * blockWidth) - padding; // Начальная позиция для отрисовки с учетом отступа
 
@@ -194,6 +195,18 @@ public class GameScene extends SceneWithKeys {
                 g.drawImage(BLACK_HP, xOffset + i * blockWidth, 35, null); // Отрисовка блока, если HP меньше
             }
         }
+    }
+
+    private static int scaleSize(int originalSize) {
+        double scaleX = (double) Main.WIDTH / 1800; // Используйте ваше целевое разрешение
+        double scaleY = (double) Main.HEIGHT / 800; // Используйте ваше целевое разрешение
+        return (int) (originalSize * Math.min(scaleX, scaleY)); // Применяем масштабирование
+    }
+
+    // Метод для получения масштабированного шрифта
+    private Font getScaledFont(int originalSize) {
+        int scaledSize = scaleSize(originalSize); // Масштабируем размер шрифта
+        return ResourceLoader.loadFont("res/Font.ttf", scaledSize); // Загружаем шрифт с новым размером
     }
 
     public PlayerShip getPlayer() {

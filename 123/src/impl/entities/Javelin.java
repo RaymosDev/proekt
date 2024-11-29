@@ -1,6 +1,5 @@
 package impl.entities;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -14,18 +13,23 @@ import impl.Main;
 import impl.scenes.GameScene;
 
 public class Javelin extends Entity implements DamagableEntity {
-    private static final int WIDTH = 322;
-    private static final int HEIGHT = 77;
+    private static final int ORIGINAL_WIDTH = 322;
+    private static final int ORIGINAL_HEIGHT = 77;
     private static final int MAX_HEALTH = 3;
-    private static final double SPEED = 400.0;
+    private static final double ORIGINAL_SPEED = 400.0; // Оригинальная скорость
     private static final int SCORE_VALUE = 100;
     private static final double HEALTH_DROP_CHANCE = 0.2;
     private static final double BASE_CONTACT_DAMAGE = 2.0;
     private static final double BASE_LASER_DAMAGE = 2;
     private static final double LASER_COOLDOWN = 2;
-    private static final int LASER_WIDTH = 90;
-    private static final int LASER_HEIGHT = 15;
-    private static final double LASER_SPEED = 1000.0;
+    private static final int ORIGINAL_LASER_WIDTH = 90;
+    private static final int ORIGINAL_LASER_HEIGHT = 15;
+    private static final double ORIGINAL_LASER_SPEED = 1000.0; // Оригинальная скорость лазера
+
+    private static final int WIDTH = scaleSize(ORIGINAL_WIDTH);
+    private static final int HEIGHT = scaleSize(ORIGINAL_HEIGHT);
+    private static final int LASER_WIDTH = scaleSize(ORIGINAL_LASER_WIDTH);
+    private static final int LASER_HEIGHT = scaleSize(ORIGINAL_LASER_HEIGHT);
 
     private static final Image SPRITE_1 = ResourceLoader.loadImage("res/images/entities/javelin/Javelin1.png")
 	    .getScaledInstance(WIDTH, HEIGHT, 0);
@@ -36,16 +40,30 @@ public class Javelin extends Entity implements DamagableEntity {
 
     private double health;
     private double nextFireTime;
+    private double speed; // Масштабированная скорость
 
     public Javelin(Vector2 position) {
 	super(position, new Vector2(WIDTH, HEIGHT));
 	health = MAX_HEALTH;
+	speed = scaleSpeed(ORIGINAL_SPEED); // Масштабируем скорость
+    }
+
+    private static int scaleSize(int originalSize) {
+        double scaleX = (double) Main.WIDTH / 1800; // Используйте ваше целевое разрешение
+        double scaleY = (double) Main.HEIGHT / 800; // Используйте ваше целевое разрешение
+        return (int) (originalSize * Math.min(scaleX, scaleY)); // Применяем масштабирование
+    }
+
+    private static double scaleSpeed(double originalSpeed) {
+        double scaleX = (double) Main.WIDTH / 1800; // Используйте ваше целевое разрешение
+        double scaleY = (double) Main.HEIGHT / 800; // Используйте ваше целевое разрешение
+        return originalSpeed * Math.min(scaleX, scaleY); // Применяем масштабирование
     }
 
     @Override
     public void tick() {
 	Vector2 position = getPosition();
-	position.add(-SPEED * Game.getInstance().getDeltaTime(), 0);
+	position.add(-speed * Game.getInstance().getDeltaTime(), 0); // Используем масштабированную скорость
 	setPosition(position);
 	double currentTime = Game.getInstance().getTime();
 	if (currentTime > nextFireTime) {
@@ -75,7 +93,6 @@ public class Javelin extends Entity implements DamagableEntity {
 	
 	// Отрисовка спрайта
 	g.drawImage(sprite, (int) (position.getX() - WIDTH / 2.0), (int) (position.getY() - HEIGHT / 2.0), null);
-	
     }
 
     @Override
@@ -110,9 +127,8 @@ public class Javelin extends Entity implements DamagableEntity {
     }
 
     private static class Laser extends Projectile {
-
 	public Laser(Vector2 position) {
-	    super(position, new Vector2(LASER_WIDTH, LASER_HEIGHT), new Vector2(-LASER_SPEED, 0));
+	    super(position, new Vector2(LASER_WIDTH, LASER_HEIGHT), new Vector2(-scaleSpeed(ORIGINAL_LASER_SPEED), 0)); // Масштабируем скорость лазера
 	}
 
 	@Override
