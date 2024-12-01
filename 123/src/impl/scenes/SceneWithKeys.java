@@ -47,13 +47,13 @@ public class SceneWithKeys extends Scene {
 
         // Центрируем кнопку по оси X
         int buttonX = (containerWidth - buttonState.getWidth(null)) / 2; // Вычисляем координату X для кнопки
-        g.drawImage(buttonState, buttonX, 340 + 67 * i, null);
+        g.drawImage(buttonState, buttonX, 370 + 67 * i, null);
 
         String option = options[i];
         int width = g.getFontMetrics().stringWidth(option);
         // Центрируем текст по оси X
         int textX = (containerWidth - width) / 2; // Вычисляем координату X для текста
-        g.drawString(option, textX, 382 + 67 * i);
+        g.drawString(option, textX, 412 + 67 * i);
     }
 }
 
