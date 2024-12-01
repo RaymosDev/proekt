@@ -33,7 +33,7 @@ public class EndingScene extends SceneWithKeys {
     private int highScore;
     private String os;
 
-    private static final Font DEATH_FONT = ResourceLoader.loadFont("res/Font.ttf", 100);
+    private static final Font DEATH_FONT = ResourceLoader.loadFont("res/Font.ttf", 50);
     private static final Font SCORE_FONT = ResourceLoader.loadFont("res/Font.ttf", 50);
     private static final Font UI_FONT = ResourceLoader.loadFont("res/Font.ttf", 36);
 
@@ -81,24 +81,24 @@ public class EndingScene extends SceneWithKeys {
     int containerWidth = Main.WIDTH;
     int deathMessageWidth = g.getFontMetrics().stringWidth(deathMessage);
     int deathMessageX = (containerWidth - deathMessageWidth) / 2; // Вычисляем координату X
-    g.drawString(deathMessage, deathMessageX, 130);
+    g.drawString(deathMessage, deathMessageX, 60);
 
     g.setFont(SCORE_FONT);
     String scoreText = "Ваш счёт: " + score;
     int scoreTextWidth = g.getFontMetrics().stringWidth(scoreText);
     int scoreTextX = (containerWidth - scoreTextWidth) / 2; // Центрируем текст по оси X
-    g.drawString(scoreText, scoreTextX, 225);
+    g.drawString(scoreText, scoreTextX, 130);
 
     if (wasNewHighScore) {
         String highScoreText = "Новый рекорд!";
         int highScoreTextWidth = g.getFontMetrics().stringWidth(highScoreText);
         int highScoreTextX = (containerWidth - highScoreTextWidth) / 2; // Центрируем текст по оси X
-        g.drawString(highScoreText, highScoreTextX, 310);
+        g.drawString(highScoreText, highScoreTextX, 200);
     } else {
         String highScoreText = "Ваш рекорд: " + highScore;
         int highScoreTextWidth = g.getFontMetrics().stringWidth(highScoreText);
         int highScoreTextX = (containerWidth - highScoreTextWidth) / 2; // Центрируем текст по оси X
-        g.drawString(highScoreText, highScoreTextX, 310);
+        g.drawString(highScoreText, highScoreTextX, 200);
     }
 
     g.setFont(UI_FONT);

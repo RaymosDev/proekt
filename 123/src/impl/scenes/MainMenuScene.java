@@ -23,7 +23,7 @@ public class MainMenuScene extends SceneWithKeys {
     // list of options
     private final String[] MAIN_MENU_OPTIONS = { "Старт", "Сложность", "Разрешение", "Титры", "Выйти" };
     private final String[] SETTINGS_OPTIONS = { "Простая", "Средняя", "Высокая", "Назад" };
-    private final String[] RESOLUTION_OPTIONS = { "1230x710", "1800x800", "Назад" };
+    private final String[] RESOLUTION_OPTIONS = { "1270x610", "1800x800", "Назад" };
 
     private BufferedImage backgroundImage;
     private Image title;
@@ -69,7 +69,7 @@ public class MainMenuScene extends SceneWithKeys {
             // Центрируем изображение title
             int imageWidth = title.getWidth(null); // Получаем ширину изображения
             int xTitle = (Main.WIDTH - imageWidth) / 2; // Вычисляем координату X для центрирования
-            g.drawImage(title, xTitle, 45, null); // Рисуем изображение по центру
+            g.drawImage(title, xTitle, 0, null); // Рисуем изображение по центру
 
             currentOption = upDown(inputManager, MAIN_MENU_OPTIONS, currentOption);
             renderScrollingMenus(g, MAIN_MENU_OPTIONS, currentOption);
@@ -78,7 +78,7 @@ public class MainMenuScene extends SceneWithKeys {
             // Центрируем изображение title
             int imageWidth = title.getWidth(null); // Получаем ширину изображения
             int xTitle = (Main.WIDTH - imageWidth) / 2; // Вычисляем координату X для центрирования
-            g.drawImage(title, xTitle, 45, null); // Рисуем изображение по центру
+            g.drawImage(title, xTitle, 0, null); // Рисуем изображение по центру
 
             currentOption = upDown(inputManager, SETTINGS_OPTIONS, currentOption);
             renderScrollingMenus(g, SETTINGS_OPTIONS, currentOption);
@@ -87,7 +87,7 @@ public class MainMenuScene extends SceneWithKeys {
             // Центрируем изображение title
             int imageWidth = title.getWidth(null); // Получаем ширину изображения
             int xTitle = (Main.WIDTH - imageWidth) / 2; // Вычисляем координату X для центрирования
-            g.drawImage(title, xTitle, 45, null); // Рисуем изображение по центру
+            g.drawImage(title, xTitle, 0, null); // Рисуем изображение по центру
 
             currentOption = upDown(inputManager, RESOLUTION_OPTIONS, currentOption);
             renderScrollingMenus(g, RESOLUTION_OPTIONS, currentOption);
@@ -117,7 +117,7 @@ public class MainMenuScene extends SceneWithKeys {
             } else if (currentOption == 2) {
                 sceneOption = "Resolution";
                 // Установите текущий выбор разрешения в зависимости от текущего разрешения
-                currentOption = (Main.WIDTH == 1230) ? 0 : 1; // 0 для 1230x720, 1 для 1800x800
+                currentOption = (Main.WIDTH == 1270) ? 0 : 1; // 0 для 1230x720, 1 для 1800x800
             } else if (currentOption == 3) {
                 sceneOption = "Credits";
                 addObject(new FadeIn(1.0));
@@ -166,8 +166,8 @@ public class MainMenuScene extends SceneWithKeys {
             }
 
             // Устанавливаем новое разрешение в зависимости от выбранной опции
-            int newWidth = (currentOption == 0) ? 1230 : 1800;
-            int newHeight = (currentOption == 0) ? 710 : 800;
+            int newWidth = (currentOption == 0) ? 1270 : 1800;
+            int newHeight = (currentOption == 0) ? 640 : 800;
 
             // Проверяем, изменяется ли разрешение
             if (Main.WIDTH != newWidth || Main.HEIGHT != newHeight) {
@@ -230,7 +230,7 @@ public class MainMenuScene extends SceneWithKeys {
             int textWidth = g.getFontMetrics().stringWidth(prompt);
             // Центрируем текст по оси X
             int textX = (containerWidth - textWidth) / 2; // Вычисляем координату X для текста
-            g.drawString(prompt, textX, 700);
+            g.drawString(prompt, textX, 600);
         }
 
         if (inputManager.getKeyDown(KeyEvent.VK_ENTER)) {

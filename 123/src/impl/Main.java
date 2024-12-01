@@ -6,8 +6,8 @@ import impl.scenes.MainMenuScene;
 import java.awt.Image;
 
 public class Main {
-    public static  int WIDTH = 1800;
-    public static  int HEIGHT = 800;
+    public static  int WIDTH = 1270;
+    public static  int HEIGHT = 640;
 
     public static Difficulty difficulty = Difficulty.MEDIUM;
 
