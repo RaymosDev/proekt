@@ -21,8 +21,9 @@ import impl.Main;
 public class MainMenuScene extends SceneWithKeys {
     private static final Font UI_FONT = ResourceLoader.loadFont("res/Font.ttf", 36);
     // list of options
-    private final String[] MAIN_MENU_OPTIONS = { "Старт", "Сложность", "Титры", "Выйти" };
+    private final String[] MAIN_MENU_OPTIONS = { "Старт", "Сложность", "Разрешение", "Титры", "Выйти" };
     private final String[] SETTINGS_OPTIONS = { "Простая", "Средняя", "Высокая", "Назад" };
+    private final String[] RESOLUTION_OPTIONS = { "1280x720", "1800x800", "Назад" };
 
     private BufferedImage backgroundImage;
     private Image title;
@@ -44,7 +45,7 @@ public class MainMenuScene extends SceneWithKeys {
     @Override
     public void initialize() {
         backgroundImage = ResourceLoader.toBufferedImage(
-        ResourceLoader.loadImage("res/images/backgrounds/GameBackground.png").getScaledInstance(24750, 825, 0));
+            ResourceLoader.loadImage("res/images/backgrounds/GameBackground.png").getScaledInstance(24750, 825, 0));
         title = ResourceLoader.loadImage("res/images/ui/Title.png").getScaledInstance(889, 322, 0);
 
         backgroundMusic = ResourceLoader.loadAudioClip("res/audio/MainMenuMusic.wav");
@@ -53,40 +54,49 @@ public class MainMenuScene extends SceneWithKeys {
     }
 
     @Override
-public void render(Graphics g) {
-    InputManager inputManager = Game.getInstance().getInputManager();
-    g.setFont(UI_FONT);
-    g.setColor(Color.WHITE);
+    public void render(Graphics g) {
+        InputManager inputManager = Game.getInstance().getInputManager();
+        g.setFont(UI_FONT);
+        g.setColor(Color.WHITE);
 
-    double time = Game.getInstance().getTime();
-    int x = (int) (time * 50 % 22195);
-    Image backgroundSubImage = backgroundImage.getSubimage(x, 0, Main.WIDTH, Main.HEIGHT);
-    g.drawImage(backgroundSubImage, 0, 0, null);
+        double time = Game.getInstance().getTime();
+        int x = (int) (time * 50 % 22195);
+        Image backgroundSubImage = backgroundImage.getSubimage(x, 0, Main.WIDTH, Main.HEIGHT);
+        g.drawImage(backgroundSubImage, 0, 0, null);
 
-    // render background and text
-    if (sceneOption.equals("Main")) {
-        // Центрируем изображение title
-        int imageWidth = title.getWidth(null); // Получаем ширину изображения
-        int xTitle = (Main.WIDTH - imageWidth) / 2; // Вычисляем координату X для центрирования
-        g.drawImage(title, xTitle, 45, null); // Рисуем изображение по центру
+        // render background and text
+        if (sceneOption.equals("Main")) {
+            // Центрируем изображение title
+            int imageWidth = title.getWidth(null); // Получаем ширину изображения
+            int xTitle = (Main.WIDTH - imageWidth) / 2; // Вычисляем координату X для центрирования
+            g.drawImage(title, xTitle, 45, null); // Рисуем изображение по центру
 
-        currentOption = upDown(inputManager, MAIN_MENU_OPTIONS, currentOption);
-        renderScrollingMenus(g, MAIN_MENU_OPTIONS, currentOption);
-        mainMenuEnter(inputManager);
-    } else if (sceneOption.equals("Difficulty")) {
-        // Центрируем изображение title
-        int imageWidth = title.getWidth(null); // Получаем ширину изображения
-        int xTitle = (Main.WIDTH - imageWidth) / 2; // Вычисляем координату X для центрирования
-        g.drawImage(title, xTitle, 45, null); // Рисуем изображение по центру
+            currentOption = upDown(inputManager, MAIN_MENU_OPTIONS, currentOption);
+            renderScrollingMenus(g, MAIN_MENU_OPTIONS, currentOption);
+            mainMenuEnter(inputManager);
+        } else if (sceneOption.equals("Difficulty")) {
+            // Центрируем изображение title
+            int imageWidth = title.getWidth(null); // Получаем ширину изображения
+            int xTitle = (Main.WIDTH - imageWidth) / 2; // Вычисляем координату X для центрирования
+            g.drawImage(title, xTitle, 45, null); // Рисуем изображение по центру
 
-        currentOption = upDown(inputManager, SETTINGS_OPTIONS, currentOption);
-        renderScrollingMenus(g, SETTINGS_OPTIONS, currentOption);
-        settingsMenuEnter(inputManager);
-    } else if (sceneOption.equals("Credits")) {
-        creditsScene(g, inputManager);
+            currentOption = upDown(inputManager, SETTINGS_OPTIONS, currentOption);
+            renderScrollingMenus(g, SETTINGS_OPTIONS, currentOption);
+            settingsMenuEnter(inputManager);
+        } else if (sceneOption.equals("Resolution")) {
+            // Центрируем изображение title
+            int imageWidth = title.getWidth(null); // Получаем ширину изображения
+            int xTitle = (Main.WIDTH - imageWidth) / 2; // Вычисляем координату X для центрирования
+            g.drawImage(title, xTitle, 45, null); // Рисуем изображение по центру
+
+            currentOption = upDown(inputManager, RESOLUTION_OPTIONS, currentOption);
+            renderScrollingMenus(g, RESOLUTION_OPTIONS, currentOption);
+            resolutionMenuEnter(inputManager);
+        } else if (sceneOption.equals("Credits")) {
+            creditsScene(g, inputManager);
+        }
+        super.render(g);
     }
-    super.render(g);
-}
 
     /**
      * Decides what enter will do depending on the which option is highlighted,
@@ -103,11 +113,15 @@ public void render(Graphics g) {
                 Game.getInstance().loadScene(new GameScene());
             } else if (currentOption == 1) {
                 sceneOption = "Difficulty";
-                currentOption = Main.difficulty.ordinal();
+                currentOption = Main.difficulty.ordinal(); // Установите текущую сложность
             } else if (currentOption == 2) {
+                sceneOption = "Resolution";
+                // Установите текущий выбор разрешения в зависимости от текущего разрешения
+                currentOption = (Main.WIDTH == 1280) ? 0 : 1; // 0 для 1280x720, 1 для 1800x800
+            } else if (currentOption == 3) {
                 sceneOption = "Credits";
                 addObject(new FadeIn(1.0));
-            } else if (currentOption == 3) {
+            } else if (currentOption == 4) {
                 Game.getInstance().stop();
             }
         }
@@ -136,6 +150,39 @@ public void render(Graphics g) {
     }
 
     /**
+     * Handles resolution menu selection
+     * 
+     * @param inputManager
+     */
+    public void resolutionMenuEnter(InputManager inputManager) {
+        if (inputManager.getKeyDown(KeyEvent.VK_ENTER)) {
+            onSound();
+            
+            // Проверяем, была ли выбрана опция "Назад"
+            if (currentOption == 2) {
+                // Возвращаемся в главное меню без изменения разрешения
+                sceneOption = "Main"; // Вернуться в главное меню
+                return; // Завершить выполнение метода
+            }
+
+            // Устанавливаем новое разрешение в зависимости от выбранной опции
+            int newWidth = (currentOption == 0) ? 1280 : 1800;
+            int newHeight = (currentOption == 0) ? 720 : 800;
+
+            // Проверяем, изменяется ли разрешение
+            if (Main.WIDTH != newWidth || Main.HEIGHT != newHeight) {
+                Main.WIDTH = newWidth;
+                Main.HEIGHT = newHeight;
+                Game.getInstance().getDisplay().resize(Main.WIDTH, Main.HEIGHT);
+            }
+            
+            // Сброс текущего выбора разрешения
+            currentOption = 2; // Можно оставить это, если хотите сбросить выбор при возвращении
+            sceneOption = "Main"; // Вернуться в главное меню
+        }
+    }
+
+    /**
      * The credits scene: shows us who made the game as well as a button to return
      * us to the main menu
      * 
@@ -143,29 +190,29 @@ public void render(Graphics g) {
      * @param inputManager
      */
     public void creditsScene(Graphics g, InputManager inputManager) {
-    g.setFont(UI_FONT); // Убедитесь, что шрифт установлен
-    String title = "ТИТРЫ";
-    int containerWidth = Main.WIDTH; // Получаем ширину контейнера
+        g.setFont(UI_FONT); // Убедитесь, что шрифт установлен
+        String title = "ТИТРЫ";
+        int containerWidth = Main.WIDTH; // Получаем ширину контейнера
 
-    // Центрируем заголовок "ТИТРЫ"
-    int titleWidth = g.getFontMetrics().stringWidth(title);
-    int titleX = (containerWidth - titleWidth) / 2; // Вычисляем координату X для заголовка
-    g.drawString(title, titleX, 105);
+        // Центрируем заголовок "ТИТРЫ"
+        int titleWidth = g.getFontMetrics().stringWidth(title);
+        int titleX = (containerWidth - titleWidth) / 2; // Вычисляем координату X для заголовка
+        g.drawString(title, titleX, 105);
 
-    String[] lines = { "Разработчики:",
-        "", "Мищиряков Р. А.", "Степанов М. Д.", "Евдокимов П. С.", "",
-    };
-    
-    for (int i = 0; i < lines.length; i++) {
-        String line = lines[i];
-        int width = g.getFontMetrics().stringWidth(line);
-        // Центрируем текст по оси X
-        int textX = (containerWidth - width) / 2; // Вычисляем координату X для текста
-        g.drawString(line, textX, 190 + i * 50);
+        String[] lines = { "Разработчики:",
+            "", "Мищиряков Р. А.", "Степанов М. Д.", "Евдокимов П. С.", "",
+        };
+        
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+            int width = g.getFontMetrics().stringWidth(line);
+            // Центрируем текст по оси X
+            int textX = (containerWidth - width) / 2; // Вычисляем координату X для текста
+            g.drawString(line, textX, 190 + i * 50);
+        }
+        
+        returnToMenuOption(g, inputManager);
     }
-    
-    returnToMenuOption(g, inputManager);
-}
 
     /**
      * Creates a big red RETURN TO MENU button that returns the user to the main
@@ -174,23 +221,23 @@ public void render(Graphics g) {
      * @param g
      * @param inputManager
      */
-   public void returnToMenuOption(Graphics g, InputManager inputManager) {
-    g.setFont(UI_FONT); // Убедитесь, что шрифт установлен
-    String prompt = "НАЖМИТЕ ENTER";
-    int containerWidth = Main.WIDTH; // Получаем ширину контейнера
+    public void returnToMenuOption(Graphics g, InputManager inputManager) {
+        g.setFont(UI_FONT); // Убедитесь, что шрифт установлен
+        String prompt = "НАЖМИТЕ ENTER";
+        int containerWidth = Main.WIDTH; // Получаем ширину контейнера
 
-    if (Game.getInstance().getTime() % 1.5 < 0.9) {
-        int textWidth = g.getFontMetrics().stringWidth(prompt);
-        // Центрируем текст по оси X
-        int textX = (containerWidth - textWidth) / 2; // Вычисляем координату X для текста
-        g.drawString(prompt, textX, 700);
-    }
+        if (Game.getInstance().getTime() % 1.5 < 0.9) {
+            int textWidth = g.getFontMetrics().stringWidth(prompt);
+            // Центрируем текст по оси X
+            int textX = (containerWidth - textWidth) / 2; // Вычисляем координату X для текста
+            g.drawString(prompt, textX, 700);
+        }
 
-    if (inputManager.getKeyDown(KeyEvent.VK_ENTER)) {
-        currentOption = 0;
-        onSound();
-        addObject(new FadeIn(1.0));
-        sceneOption = "Main"; // Установите сцену на "Main" при возврате
+        if (inputManager.getKeyDown(KeyEvent.VK_ENTER)) {
+            currentOption = 0;
+            onSound();
+            addObject(new FadeIn(1.0));
+            sceneOption = "Main"; // Установите сцену на "Main" при возврате
+        }
     }
-}
 }
