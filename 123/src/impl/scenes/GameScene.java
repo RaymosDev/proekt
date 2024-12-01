@@ -160,7 +160,7 @@ public class GameScene extends SceneWithKeys {
     int containerWidth = Main.WIDTH;
     int pauseMessageWidth = g.getFontMetrics().stringWidth(pauseMessage);
     int pauseMessageX = (containerWidth - pauseMessageWidth) / 2; // Вычисляем координату X для центрирования
-    g.drawString(pauseMessage, pauseMessageX, 380);
+    g.drawString(pauseMessage, pauseMessageX, 230);
     
     renderScrollingMenus(g, PAUSE_MENU_OPTIONS, currentPauseOption);
 }
