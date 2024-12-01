@@ -14,6 +14,13 @@ import gameEngine.InputManager;
 import gameEngine.ResourceLoader;
 import impl.Difficulty;
 import impl.Main;
+import impl.entities.AsteroidLarge;
+import impl.entities.AsteroidSmall;
+import impl.entities.HealthDrop;
+import impl.entities.Hornet;
+import impl.entities.Javelin;
+import impl.entities.Marauder;
+import impl.entities.PlayerShip;
 
 /**
  * @author Marko Milovanovic
@@ -174,6 +181,13 @@ public class MainMenuScene extends SceneWithKeys {
                 Main.WIDTH = newWidth;
                 Main.HEIGHT = newHeight;
                 Game.getInstance().getDisplay().resize(Main.WIDTH, Main.HEIGHT);
+                HealthDrop.updateDimensions();
+                AsteroidLarge.updateDimensions();
+                PlayerShip.updateDimensions();
+                AsteroidSmall.updateDimensions();
+                Hornet.updateDimensions();
+                Javelin.updateDimensions();
+                Marauder.updateDimensions();
             }
             
             // Сброс текущего выбора разрешения
