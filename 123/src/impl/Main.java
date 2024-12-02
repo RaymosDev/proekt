@@ -17,4 +17,4 @@ public class Main {
 	game.start();
 	game.loadScene(new MainMenuScene());
     }
-} 
+}
