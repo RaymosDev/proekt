@@ -16,7 +16,7 @@ import impl.scenes.GameScene;
 public class Hornet extends Entity implements DamagableEntity {
     private static int WIDTH;
     private static int HEIGHT;
-    private static final int MAX_HEALTH = 1;
+    private static final int MAX_HEALTH = 2;
     private static final double SPEED = 700.0;
     private static final int SCORE_VALUE = 75;
     private static final double HEALTH_DROP_CHANCE = 0.15;

@@ -31,10 +31,14 @@ public class SceneWithKeys extends Scene {
      * @param g:       graphics from above
      * @param options: the options that can be selected
      */
-    public void renderScrollingMenus(Graphics g, String[] options, int currentOption) {
+  public void renderScrollingMenus(Graphics g, String[] options, int currentOption) {
     Image buttonState;
     g.setFont(UI_FONT);
     int containerWidth = Main.WIDTH; // Получаем ширину контейнера
+
+    // Центрируем кнопки по оси Y и добавляем смещение вниз
+    int offset = 120; // Смещение вниз (можно изменить по вашему усмотрению)
+    int startY = (Main.HEIGHT - (options.length * 67)) / 2 + offset; // Вычисляем начальную координату Y для первой кнопки
 
     for (int i = 0; i < options.length; i++) {
         if (currentOption == i) {
@@ -47,13 +51,13 @@ public class SceneWithKeys extends Scene {
 
         // Центрируем кнопку по оси X
         int buttonX = (containerWidth - buttonState.getWidth(null)) / 2; // Вычисляем координату X для кнопки
-        g.drawImage(buttonState, buttonX, 270 + 67 * i, null);
+        g.drawImage(buttonState, buttonX, startY + 67 * i, null); // Используем startY вместо фиксированной 270
 
         String option = options[i];
         int width = g.getFontMetrics().stringWidth(option);
         // Центрируем текст по оси X
         int textX = (containerWidth - width) / 2; // Вычисляем координату X для текста
-        g.drawString(option, textX, 312 + 67 * i);
+        g.drawString(option, textX, startY + 39 + 67 * i); // Изменяем Y-координату текста для центрирования
     }
 }
 
