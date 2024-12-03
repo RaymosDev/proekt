@@ -40,8 +40,8 @@ public class ResolutionConfig {
     private static final Resolution RESOLUTION_1800x800_LASER_Hornet = new Resolution(30, 6);
     
     // Размеры для  Javelin
-    private static final Resolution RESOLUTION_1280x720_Javelin = new Resolution(215, 51);
-    private static final Resolution RESOLUTION_1800x800_Javelin = new Resolution(322, 77);
+    private static final Resolution RESOLUTION_1280x720_Javelin = new Resolution(106, 60);
+    private static final Resolution RESOLUTION_1800x800_Javelin = new Resolution(159, 116);
     
     // Размеры для Laser Javelin
     private static final Resolution RESOLUTION_1280x720_LASER_Javelin = new Resolution(60, 10);
