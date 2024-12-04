@@ -78,8 +78,13 @@ public class PlayerShip extends Entity implements DamagableEntity {
 
         Vector2 position = getPosition();
         position.add(move);
-        position.setX(clamp(position.getX(), 70, Main.WIDTH - 100));
-        position.setY(clamp(position.getY(), 50, Main.HEIGHT - 40));
+        double leftBoundary = Main.WIDTH * 0.04; // 10% от ширины
+        double rightBoundary = Main.WIDTH * 1.038; // 90% от ширины
+        double topBoundary = Main.HEIGHT * 0.043; // 10% от высоты
+        double bottomBoundary = Main.HEIGHT * 1.039; // 90% от высоты
+
+    position.setX(clamp(position.getX(), leftBoundary, rightBoundary - WIDTH));
+    position.setY(clamp(position.getY(), topBoundary, bottomBoundary - HEIGHT));
         setPosition(position);
         
         if (input.getKey(KeyEvent.VK_SPACE)) {
