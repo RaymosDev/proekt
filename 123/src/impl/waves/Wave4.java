@@ -5,8 +5,8 @@ import impl.Main;
 import impl.scenes.GameScene;
 
 public class Wave4 extends Wave {
-    private static final double BASE_ENEMY_SPAWN_PERIOD = 2.0;
-    private static final int BASE_MAX_ENEMY_COUNT = 20;
+    private static final double BASE_ENEMY_SPAWN_PERIOD = 1.5;
+    private static final int BASE_MAX_ENEMY_COUNT = 60;
     private GameScene gameScene;
     private double modifiedEnemySpawnPeriod;
     private int modifiedMaxEnemyCount;

@@ -7,8 +7,8 @@ import impl.scenes.VictoryScene;
 import java.util.Random;
 
 public class Wave5 extends Wave {
-    private static final double BASE_ENEMY_SPAWN_PERIOD = 1.0; // Период спавна врагов
-    private static final int BASE_MAX_ENEMY_COUNT = 20; // Максимальное количество врагов
+    private static final double BASE_ENEMY_SPAWN_PERIOD = 0.5; // Период спавна врагов
+    private static final int BASE_MAX_ENEMY_COUNT = 60; // Максимальное количество врагов
 
     private double modifiedEnemySpawnPeriod;
     private int modifiedMaxEnemyCount;
