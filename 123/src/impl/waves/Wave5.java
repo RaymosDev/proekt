@@ -7,8 +7,8 @@ import impl.scenes.VictoryScene;
 import java.util.Random;
 
 public class Wave5 extends Wave {
-    private static final double BASE_ENEMY_SPAWN_PERIOD = 0.5; // Период спавна врагов
-    private static final int BASE_MAX_ENEMY_COUNT = 60; // Максимальное количество врагов
+    private static final double BASE_ENEMY_SPAWN_PERIOD = 1.0; // Период спавна врагов
+    private static final int BASE_MAX_ENEMY_COUNT = 20; // Максимальное количество врагов
 
     private double modifiedEnemySpawnPeriod;
     private int modifiedMaxEnemyCount;
@@ -67,21 +67,20 @@ public class Wave5 extends Wave {
     }
 
     // Проверяем, достигнуто ли максимальное количество врагов
-    if (enemyCount >= modifiedMaxEnemyCount) {
+     if (enemyCount >= modifiedMaxEnemyCount) {
         GameScene scene = (GameScene) Game.getInstance().getOpenScene();
-        
-        // Здесь мы загружаем экран победы вместо новой волны
         scene.removeObject(this);
+        scene.addObject(new Wave5(scene)); // Переход к следующей волне
         
-         new Thread(() -> {
-            try {
-                Thread.sleep(5000); // Задержка 5 секунд
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            int finalScore = scene.getScore(); // Получаем текущий счет
-            Game.getInstance().loadScene(new VictoryScene(finalScore)); // Переход к экрану победы
-        }).start();
+     //    new Thread(() -> {
+     //       try {
+     //           Thread.sleep(5000); // Задержка 5 секунд
+      //      } catch (InterruptedException e) {
+      //          e.printStackTrace();
+       //     }
+       //     int finalScore = scene.getScore(); // Получаем текущий счет
+       //     Game.getInstance().loadScene(new VictoryScene(finalScore)); // Переход к экрану победы
+      //  }).start();
     }
 }
 
