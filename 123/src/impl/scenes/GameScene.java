@@ -1,12 +1,5 @@
 package impl.scenes;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import javax.sound.sampled.Clip;
 import gameEngine.Collider;
 import gameEngine.Entity;
 import gameEngine.Entity.EntityCollider;
@@ -18,8 +11,18 @@ import gameEngine.Vector2;
 import impl.Main;
 import impl.entities.PlayerShip;
 import impl.waves.Wave1;
+
+import impl.waves.Wave5;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sound.sampled.Clip;
 
 public class GameScene extends SceneWithKeys {
     public static final double FIRST_WAVE_WAIT_TIME = 2.5;
@@ -77,7 +80,8 @@ public class GameScene extends SceneWithKeys {
         player = new PlayerShip(PLAYER_START);
         addObject(player);
         addObject(new FadeIn(1.5));
-        addObject(new Wave1(this)); // Передаем ссылку на GameScene в Wave1
+        // addObject(new Wave1(this)); // Передаем ссылку на GameScene в Wave1
+        addObject(new Wave5(this));
     }
 
     @Override
@@ -129,7 +133,7 @@ public class GameScene extends SceneWithKeys {
 
     private void unPause() {
         Game.getInstance().setTimeScale(1.0);
-        ResourceLoader.loadAudioClip("res/audio/Pause.wav").start();
+        ResourceLoader.loadAudioClip("res/audio/Unpause.wav").start();
         paused = false;
     }
 

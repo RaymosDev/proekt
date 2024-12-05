@@ -1,8 +1,5 @@
 package impl.entities;
 
-import java.awt.Graphics;
-import java.awt.Image;
-
 import gameEngine.Entity;
 import gameEngine.Game;
 import gameEngine.ResourceLoader;
@@ -10,6 +7,8 @@ import gameEngine.Vector2;
 import impl.Main;
 import impl.ResolutionConfig;
 import impl.scenes.GameScene;
+import java.awt.Graphics;
+import java.awt.Image;
 
 public class AsteroidLarge extends Entity implements DamagableEntity {
     private static final double BASE_DAMAGE_AMOUNT = 3;
@@ -75,7 +74,8 @@ public class AsteroidLarge extends Entity implements DamagableEntity {
     public void onCollisionEnter(Entity other) {
         if (other instanceof PlayerShip) {
             ((PlayerShip) other).damage(BASE_DAMAGE_AMOUNT * Main.difficulty.getModifier());
-            destroy(false);
+                
+            destroyWithExplosion(false); // При столкновении корабля и астеройда взрыв будет
         }
     }
 
@@ -87,11 +87,30 @@ public class AsteroidLarge extends Entity implements DamagableEntity {
     public void damage(double amount) {
         currentHealth -= amount;
         if (currentHealth <= 0) {
-            destroy(true);
+            destroy(true); // При разрушении большого астеройда - взрыва не будет, Имхо он не нужен. А вот когда разрушаются маленькие - имхо нужен
         }
     }
 
     private void destroy(boolean split) {
+        ResourceLoader.loadAudioClip("res/audio/AsteroidHit.wav").start();
+        GameScene scene = (GameScene) Game.getInstance().getOpenScene();
+        scene.addScore((int) (BASE_SCORE_VALUE * Main.difficulty.getModifier()));
+
+        //Explosion explosion = new Explosion(getPosition(), 200, 0.4);
+        //scene.addObject(explosion);
+        scene.removeObject(this);
+        if (split) {
+            Vector2 position = getPosition();
+            scene.addObject(new AsteroidSmall(position, velocity));
+            velocity.rotate(-Math.toRadians(30));
+            scene.addObject(new AsteroidSmall(position, velocity));
+            velocity.rotate(Math.toRadians(60));
+            scene.addObject(new AsteroidSmall(position, velocity));
+        }
+    }
+
+    // Пришлось добавить точно такой же метод как сверху, но в верхнем нет взрыва, в этом есть.
+    private void destroyWithExplosion(boolean split) {
         ResourceLoader.loadAudioClip("res/audio/AsteroidHit.wav").start();
         GameScene scene = (GameScene) Game.getInstance().getOpenScene();
         scene.addScore((int) (BASE_SCORE_VALUE * Main.difficulty.getModifier()));
