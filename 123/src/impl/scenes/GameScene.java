@@ -12,7 +12,6 @@ import impl.Main;
 import impl.entities.PlayerShip;
 import impl.waves.Wave1;
 
-import impl.waves.Wave5;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -80,8 +79,8 @@ public class GameScene extends SceneWithKeys {
         player = new PlayerShip(PLAYER_START);
         addObject(player);
         addObject(new FadeIn(1.5));
-        // addObject(new Wave1(this)); // Передаем ссылку на GameScene в Wave1
-        addObject(new Wave5(this));
+       addObject(new Wave1(this)); // Передаем ссылку на GameScene в Wave1
+      
     }
 
     @Override
