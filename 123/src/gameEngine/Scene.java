@@ -1,49 +1,59 @@
-package gameEngine;
+package gameEngine; // Объявление пакета, в котором находится класс Scene.
 
-import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.List;
+/*  Класс Scene представляет собой абстрактный класс, который служит основой 
+    для создания различных сцен в игровом движке. Он управляет коллекцией 
+    объектов сцены (SceneObject), позволяя добавлять, удалять и получать объекты. 
+    Класс включает методы для инициализации сцены, обновления состояния объектов
+    (метод tick), отрисовки объектов на экране (метод render) и освобождения 
+    ресурсов (метод dispose). Абстрактный метод initialize должен быть 
+    реализован в подклассах, что позволяет создавать специфические сцены 
+    с уникальной логикой и поведением.
+*/
 
-public abstract class Scene {
-    public List<SceneObject> objects;
+import java.awt.Graphics; // Импорт класса Graphics для работы с графикой.
+import java.util.ArrayList; // Импорт класса ArrayList для использования динамического массива.
+import java.util.List; // Импорт интерфейса List для работы с коллекциями.
 
-    public Scene() {
-	objects = new ArrayList<>();
+public abstract class Scene { // Объявление абстрактного класса Scene.
+    public List<SceneObject> objects; // Список объектов сцены.
+
+    public Scene() { // Конструктор класса Scene.
+        objects = new ArrayList<>(); // Инициализация списка объектов.
     }
 
-    public final void addObject(SceneObject object) {
-	objects.add(object);
-	object.initialize();
+    public final void addObject(SceneObject object) { // Метод для добавления объекта в сцену.
+        objects.add(object); // Добавление объекта в список.
+        object.initialize(); // Инициализация объекта.
     }
 
-    public final void removeObject(SceneObject object) {
-	objects.remove(object);
-	object.dispose();
+    public final void removeObject(SceneObject object) { // Метод для удаления объекта из сцены.
+        objects.remove(object); // Удаление объекта из списка.
+        object.dispose(); // Освобождение ресурсов объекта.
     }
 
-    public final List<SceneObject> getObjects() {
-	return new ArrayList<>(objects);
+    public final List<SceneObject> getObjects() { // Метод для получения списка объектов сцены.
+        return new ArrayList<>(objects); // Возврат нового списка объектов (для защиты оригинального списка).
     }
 
-    public abstract void initialize();
+    public abstract void initialize(); // Абстрактный метод для инициализации сцены (должен быть реализован в подклассах).
 
-    public void tick() {
-	for (int i = 0; i < objects.size(); i++) {
-	    SceneObject object = objects.get(i);
-	    object.tick();
-	}
+    public void tick() { // Метод, вызываемый для обновления состояния объектов в сцене.
+        for (int i = 0; i < objects.size(); i++) { // Итерация по всем объектам в списке.
+            SceneObject object = objects.get(i); // Получение текущего объекта.
+            object.tick(); // Обновление состояния объекта.
+        }
     }
 
-    public void render(Graphics g) {
-	for (int i = 0; i < objects.size(); i++) {
-	    SceneObject object = objects.get(i);
-	    object.render(g);
-	}
+    public void render(Graphics g) { // Метод для отрисовки объектов на графическом контексте.
+        for (int i = 0; i < objects.size(); i++) { // Итерация по всем объектам в списке.
+            SceneObject object = objects.get(i); // Получение текущего объекта.
+            object.render(g); // Отрисовка объекта с использованием графического контекста.
+        }
     }
 
-    public void dispose() {
-	for (int i = 0; i < objects.size(); i++) {
-	    objects.get(i).dispose();
-	}
+    public void dispose() { // Метод для освобождения ресурсов всех объектов в сцене.
+        for (int i = 0; i < objects.size(); i++) { // Итерация по всем объектам в списке.
+            objects.get(i).dispose(); // Освобождение ресурсов текущего объекта.
+        }
     }
 }

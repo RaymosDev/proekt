@@ -1,43 +1,73 @@
-package impl.scenes;
+package impl.scenes; // Объявление пакета, в котором находится класс FadeOut.
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Color; // Импорт класса Color для работы с цветами.
+import java.awt.Graphics; // Импорт класса Graphics для рисования на экране.
 
-import gameEngine.Game;
-import gameEngine.SceneObject;
-import impl.Main;
+import gameEngine.Game; // Импорт класса Game для доступа к игровым данным.
+import gameEngine.SceneObject; // Импорт класса SceneObject, от которого наследуется FadeOut.
+import impl.Main; // Импорт главного класса приложения.
 
+/**
+ * Класс FadeOut представляет собой эффект затухания, который используется для плавного
+ * перехода между сценами в игре.
+ * Основные компоненты класса:
+Поля:
+
+duration: Длительность эффекта затухания.
+startTime: Время, когда начинается эффект затухания.
+Конструктор:
+
+Инициализирует длительность затухания.
+Методы:
+
+initialize(): Записывает время начала затухания.
+tick(): Метод, который вызывается на каждом обновлении игры, но в данном случае не содержит логики.
+render(Graphics g): Отрисовывает эффект затухания. Вычисляет альфа-значение для черного цвета, создавая эффект плавного появления. Если длительность затухания завершена, объект удаляется из сцены.
+dispose(): Метод для освобождения ресурсов при завершении эффекта, в данном случае не содержит логики.
+ */
 public class FadeOut extends SceneObject {
-    private double duration;
-    private double startTime;
+    private double duration; // Длительность эффекта затухания.
+    private double startTime; // Время начала эффекта затухания.
 
+    // Конструктор класса, принимающий длительность затухания.
     public FadeOut(double duration) {
-	this.duration = duration;
+        this.duration = duration; // Инициализация длительности затухания.
     }
 
+    // Метод инициализации эффекта затухания.
     @Override
     public void initialize() {
-	startTime = Game.getInstance().getTime();
+        startTime = Game.getInstance().getTime(); // Запись времени начала затухания.
     }
 
+    // Метод, который вызывается на каждом тике (обновлении) игры.
     @Override
     public void tick() {
+        // В данном методе не происходит никаких действий.
     }
 
+    // Метод отрисовки эффекта затухания на экране.
     @Override
     public void render(Graphics g) {
-	double time = Game.getInstance().getTime();
-	if (time > startTime + duration) {
-	    Game.getInstance().getOpenScene().removeObject(this);
-	    return;
-	}
-	int alpha = (int) ((time - startTime) / duration * 255.0);
-	Color color = new Color(0, 0, 0, alpha);
-	g.setColor(color);
-	g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
+        double time = Game.getInstance().getTime(); // Получение текущего времени игры.
+        
+        // Проверка, завершился ли эффект затухания.
+        if (time > startTime + duration) {
+            Game.getInstance().getOpenScene().removeObject(this); // Удаление объекта затухания из текущей сцены.
+            return; // Завершение метода, если эффект завершен.
+        }
+        
+        // Вычисление альфа-канала для цвета затухания.
+        int alpha = (int) ((time - startTime) / duration * 255.0);
+        Color color = new Color(0, 0, 0, alpha); // Создание черного цвета с вычисленным альфа-каналом.
+        
+        g.setColor(color); // Установка цвета для графики.
+        g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT); // Отрисовка прямоугольника, заполняющего весь экран.
     }
 
+    // Метод для освобождения ресурсов при завершении эффекта затухания.
     @Override
     public void dispose() {
+        // В данном методе не происходит никаких действий.
     }
 }

@@ -1,147 +1,154 @@
-package gameEngine;
+package gameEngine; // Объявление пакета, в котором находится класс Game.
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferStrategy;
+/*  Класс Game представляет собой основной класс игрового движка, 
+    который управляет жизненным циклом игры, включая инициализацию, 
+    запуск, остановку и отрисовку сцен. Он использует шаблон синглтона 
+    для обеспечения единственного экземпляра игры и включает в себя менеджер 
+    ввода, дисплей и механизмы для работы со сценами. 
+    Игровой цикл реализован в отдельном потоке и включает в себя 
+    обновление состояния игры и отрисовку графики.
+*/
 
-public class Game {
-    private static Game instance;
+import java.awt.Graphics; // Импорт класса Graphics для работы с графикой.
+import java.awt.Image; // Импорт класса Image для работы с изображениями.
+import java.awt.image.BufferStrategy; // Импорт класса BufferStrategy для управления буферизацией графики.
 
-    private String title;
-    private int width;
-    private int height;
-    private InputManager inputManager;
-    private Display display;
-    private Scene currentScene;
-    private Scene nextScene;
-    private boolean running;
-    private double timeScale;
-    private double elapsedTimeSeconds;
-    private double deltaTimeSeconds;
+public class Game { // Объявление класса Game.
+    private static Game instance; // Статическая переменная для хранения единственного экземпляра игры (синглтон).
 
-    public Game(String title, int width, int height, Image icon) {
-        if (instance != null) {
-            throw new IllegalStateException("There can be only one!");
+    private String title; // Заголовок игры.
+    private int width; // Ширина окна игры.
+    private int height; // Высота окна игры.
+    private InputManager inputManager; // Менеджер ввода для обработки пользовательских команд.
+    private Display display; // Объект для отображения графики.
+    private Scene currentScene; // Текущая сцена, отображаемая в игре.
+    private Scene nextScene; // Сцена, ожидающая загрузки.
+    private boolean running; // Флаг, указывающий, запущена ли игра.
+    private double timeScale; // Масштаб времени для управления скоростью игры.
+    private double elapsedTimeSeconds; // Общее время, прошедшее с начала игры.
+    private double deltaTimeSeconds; // Время, прошедшее с последнего обновления.
+
+    public Game(String title, int width, int height, Image icon) { // Конструктор класса Game.
+        if (instance != null) { // Проверка, существует ли уже экземпляр игры.
+            throw new IllegalStateException("There can be only one!"); // Исключение, если экземпляр уже существует.
         }
-        this.title = title;
-        this.width = width;
-        this.height = height;
-        inputManager = new InputManager();
-        display = new Display(title, width, height, icon, inputManager.getKeyListener());
-        currentScene = null;
-        nextScene = null;
-        running = false;
-        timeScale = 1.0;
-        elapsedTimeSeconds = 0.0;
-        deltaTimeSeconds = 0.0;
-        instance = this;
+        this.title = title; // Установка заголовка игры.
+        this.width = width; // Установка ширины окна.
+        this.height = height; // Установка высоты окна.
+        inputManager = new InputManager(); // Инициализация менеджера ввода.
+        display = new Display(title, width, height, icon, inputManager.getKeyListener()); // Создание объекта Display.
+        currentScene = null; // Изначально текущая сцена не установлена.
+        nextScene = null; // Изначально следующая сцена не установлена.
+        running = false; // Игра не запущена.
+        timeScale = 1.0; // Установка масштаба времени по умолчанию.
+        elapsedTimeSeconds = 0.0; // Изначально прошедшее время равно 0.
+        deltaTimeSeconds = 0.0; // Изначально время обновления равно 0.
+        instance = this; // Установка текущего экземпляра как единственного.
     }
 
-    public static Game getInstance() {
-        return instance;
+    public static Game getInstance() { // Метод для получения единственного экземпляра игры.
+        return instance; // Возврат экземпляра игры.
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitle() { // Метод для получения заголовка игры.
+        return title; // Возврат заголовка.
     }
 
-    public int getWidth() {
-        return width;
+    public int getWidth() { // Метод для получения ширины окна.
+        return width; // Возврат ширины.
     }
 
-    public int getHeight() {
-        return height;
+    public int getHeight() { // Метод для получения высоты окна.
+        return height; // Возврат высоты.
     }
 
-    public InputManager getInputManager() {
-        return inputManager;
+    public InputManager getInputManager() { // Метод для получения менеджера ввода.
+        return inputManager; // Возврат менеджера ввода.
     }
 
-    public Display getDisplay() {
-        return display;
+    public Display getDisplay() { // Метод для получения объекта отображения.
+        return display; // Возврат объекта Display.
     }
 
-    public void start() {
-        if (running) {
-            throw new IllegalStateException("Game already started!");
+    public void start() { // Метод для запуска игры.
+        if (running) { // Проверка, запущена ли игра.
+            throw new IllegalStateException("Game already started!"); // Исключение, если игра уже запущена.
         }
-        display.open();
-        running = true;
-        new Thread() {
+        display.open(); // Открытие окна отображения.
+        running = true; // Установка флага, указывающего на то, что игра запущена.
+        new Thread() { // Создание нового потока для выполнения игрового цикла.
             @Override
-            public void run() {
-                long lastTimeMilis = System.currentTimeMillis();
-                while (running) {
-                    long currentTimeMilis = System.currentTimeMillis();
-                    long absoluteDeltaTimeMilis = currentTimeMilis - lastTimeMilis;
-                    lastTimeMilis = currentTimeMilis;
-                    deltaTimeSeconds = absoluteDeltaTimeMilis * 0.001 * timeScale;
-                    elapsedTimeSeconds += deltaTimeSeconds;
-                    if (nextScene != null) {
-                        if (currentScene != null) {
-                            currentScene.dispose();
+            public void run() { // Переопределение метода run для запуска игрового цикла.
+                long lastTimeMilis = System.currentTimeMillis(); // Запись текущего времени в миллисекундах.
+                while (running) { // Цикл, продолжающийся, пока игра запущена.
+                    long currentTimeMilis = System.currentTimeMillis(); // Получение текущего времени.
+                    long absoluteDeltaTimeMilis = currentTimeMilis - lastTimeMilis; // Вычисление времени, прошедшего с последнего обновления.
+                    lastTimeMilis = currentTimeMilis; // Обновление времени последнего обновления.
+                    deltaTimeSeconds = absoluteDeltaTimeMilis * 0.001 * timeScale; // Вычисление времени обновления в секундах с учетом масштаба времени.
+                    elapsedTimeSeconds += deltaTimeSeconds; // Обновление общего времени игры.
+                    if (nextScene != null) { // Проверка, есть ли следующая сцена для загрузки.
+                        if (currentScene != null) { // Если текущая сцена существует,
+                            currentScene.dispose(); // освободить ее ресурсы.
                         }
-                        currentScene = nextScene;
-                        nextScene = null;
-                        currentScene.initialize();
+                        currentScene = nextScene; // Установка следующей сцены как текущей.
+                        nextScene = null; // Сброс следующей сцены.
+                        currentScene.initialize(); // Инициализация новой текущей сцены.
                     }
-                    if (currentScene != null) {
-                        tick();
-                        render();
+                    if (currentScene != null) { // Если текущая сцена существует,
+                        tick(); // Обновить состояние сцены.
+                        render(); // Отобразить сцену.
                     }
-                    inputManager.tick();
+                    inputManager.tick(); // Обновление состояния ввода.
                 }
-                if (currentScene != null) {
-                    currentScene.dispose();
+                if (currentScene != null) { // Если текущая сцена существует после выхода из цикла,
+                    currentScene.dispose(); // освободить ее ресурсы.
                 }
-                display.close();
+                display.close(); // Закрытие окна отображения.
             }
-        }.start();
+        }.start(); // Запуск нового потока.
     }
 
-    public void stop() {
-        if (!running) {
-            throw new IllegalStateException("Game already stopped!");
+    public void stop() { // Метод для остановки игры.
+        if (!running) { // Проверка, запущена ли игра.
+            throw new IllegalStateException("Game already stopped!"); // Исключение, если игра уже остановлена.
         }
-        running = false;
-     
+        running = false; // Установка флага, указывающего на остановку игры.
     }
 
-    public Scene getOpenScene() {
-        return currentScene;
+    public Scene getOpenScene() { // Метод для получения текущей открытой сцены.
+        return currentScene; // Возврат текущей сцены.
     }
 
-    public void loadScene(Scene scene) {
-    
-        nextScene = scene;
+    public void loadScene(Scene scene) { // Метод для загрузки новой сцены.
+        nextScene = scene; // Установка следующей сцены.
     }
 
-    private void tick() {
-        currentScene.tick();
+    private void tick() { // Метод для обновления состояния текущей сцены.
+        currentScene.tick(); // Вызов метода tick у текущей сцены.
     }
 
-    private void render() {
-        BufferStrategy bufferStrategy = display.getBufferStrategy();
-        Graphics graphics = bufferStrategy.getDrawGraphics();
-        graphics.clearRect(0, 0, width, height);
-        currentScene.render(graphics);
-        graphics.dispose();
-        bufferStrategy.show();
+    private void render() { // Метод для отрисовки текущей сцены.
+        BufferStrategy bufferStrategy = display.getBufferStrategy(); // Получение стратегии буферизации для отображения.
+        Graphics graphics = bufferStrategy.getDrawGraphics(); // Получение объекта Graphics для рисования.
+        graphics.clearRect(0, 0, width, height); // Очистка области отображения.
+        currentScene.render(graphics); // Отрисовка текущей сцены.
+        graphics.dispose(); // Освобождение ресурсов графики.
+        bufferStrategy.show(); // Отображение обновленного содержимого.
     }
 
-    public double getTimeScale() {
-        return timeScale;
+    public double getTimeScale() { // Метод для получения масштаба времени.
+        return timeScale; // Возврат масштаба времени.
     }
 
-    public void setTimeScale(double timeScale) {
-        this.timeScale = timeScale;
+    public void setTimeScale(double timeScale) { // Метод для установки нового масштаба времени.
+        this.timeScale = timeScale; // Установка нового масштаба времени.
     }
 
-    public double getTime() {
-        return elapsedTimeSeconds;
+    public double getTime() { // Метод для получения общего времени игры.
+        return elapsedTimeSeconds; // Возврат общего времени.
     }
 
-    public double getDeltaTime() {
-        return deltaTimeSeconds;
+    public double getDeltaTime() { // Метод для получения времени обновления.
+        return deltaTimeSeconds; // Возврат времени обновления.
     }
 }
