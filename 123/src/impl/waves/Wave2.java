@@ -6,7 +6,7 @@ import impl.scenes.GameScene;
 import java.util.Random;
 
 public class Wave2 extends Wave {
-    private static final double BASE_ENEMY_SPAWN_PERIOD = 0.90;
+    private static final double BASE_ENEMY_SPAWN_PERIOD = 1.0;
     private static final int BASE_MAX_ENEMY_COUNT = 20;
     private GameScene gameScene;
     private double modifiedEnemySpawnPeriod;
@@ -35,10 +35,9 @@ public class Wave2 extends Wave {
         }
     }
 
-    private void spawnEnemy() {
+   private void spawnEnemy() {
        enemyCount++;
-	//spawnJavelin();
-
+        //spawnHornet();
 
 
 
@@ -48,7 +47,7 @@ public class Wave2 extends Wave {
 
     // Генерируем новый тип врага, пока он не будет отличаться от предыдущего
     do {
-        enemyType = random.nextInt(2);
+        enemyType = random.nextInt(3);
     } while (enemyType == lastSpawnedEnemyType);
 
     // Сохраняем тип последнего заспавненного врага
@@ -61,10 +60,10 @@ public class Wave2 extends Wave {
         case 1:
             spawnJavelin();
             break;
+        case 2:
+            spawnHornet();
+            break;
     }
-
-
-
 
 
 
@@ -80,3 +79,4 @@ public class Wave2 extends Wave {
         return "NEW WAVE";
     }
 }
+

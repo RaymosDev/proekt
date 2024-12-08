@@ -37,7 +37,7 @@ public class Wave3 extends Wave {
 
    private void spawnEnemy() {
        enemyCount++;
-        //spawnHornet();
+        //spawnMarauder();
 
 
 
@@ -47,7 +47,7 @@ public class Wave3 extends Wave {
 
     // Генерируем новый тип врага, пока он не будет отличаться от предыдущего
     do {
-        enemyType = random.nextInt(3);
+        enemyType = random.nextInt(4);
     } while (enemyType == lastSpawnedEnemyType);
 
     // Сохраняем тип последнего заспавненного врага
@@ -63,7 +63,14 @@ public class Wave3 extends Wave {
         case 2:
             spawnHornet();
             break;
+        case 3:
+            spawnMarauder();
+            break;
     }
+
+
+
+
 
 
 
