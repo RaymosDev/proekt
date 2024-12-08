@@ -3,11 +3,10 @@
 import gameEngine.Game;
 import impl.Main;
 import impl.scenes.GameScene;
-import impl.scenes.VictoryScene;
 import java.util.Random;
 
 public class Wave5 extends Wave {
-    private static final double BASE_ENEMY_SPAWN_PERIOD = 1.0;
+    private static final double BASE_ENEMY_SPAWN_PERIOD = 0.90;
     private static final int BASE_MAX_ENEMY_COUNT = 20;
 
     private double modifiedEnemySpawnPeriod;

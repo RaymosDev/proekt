@@ -10,9 +10,7 @@ import gameEngine.SceneObject;
 import gameEngine.Vector2;
 import impl.Main;
 import impl.entities.PlayerShip;
-import impl.waves.Wave1;
-
-
+import impl.waves.Wave2;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -78,7 +76,7 @@ public class GameScene extends SceneWithKeys {
         player = new PlayerShip(PLAYER_START);
         addObject(player);
         addObject(new FadeIn(1.5));
-       addObject(new Wave1(this));
+       addObject(new Wave2(this));
       
     }
 
