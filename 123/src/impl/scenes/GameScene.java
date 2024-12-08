@@ -45,8 +45,7 @@ import gameEngine.SceneObject; // Импорт класса SceneObject, от к
 import gameEngine.Vector2; // Импорт класса Vector2 для работы с векторами.
 import impl.Main; // Импорт главного класса приложения.
 import impl.entities.PlayerShip; // Импорт класса PlayerShip, представляющего игрока.
-import impl.waves.Wave1; // Импорт класса Wave1, представляющего первую волну врагов.
-
+import impl.waves.Wave2; // Импорт класса Wave2, представляющего первую волну врагов.
 import java.awt.Color; // Импорт класса Color для работы с цветами.
 import java.awt.Font; // Импорт класса Font для работы с шрифтами.
 import java.awt.Graphics; // Импорт класса Graphics для рисования на экране.
@@ -122,7 +121,7 @@ public class GameScene extends SceneWithKeys {
         player = new PlayerShip(PLAYER_START); // Создание игрока на стартовой позиции.
         addObject(player); // Добавление игрока в сцену.
         addObject(new FadeIn(1.5)); // Добавление эффекта затухания при входе в сцену.
-        addObject(new Wave1(this)); // Добавление первой волны врагов.
+        addObject(new Wave2(this)); // Добавление первой волны врагов.
     }
 
     // Метод, который вызывается на каждом тике (обновлении) игры.
