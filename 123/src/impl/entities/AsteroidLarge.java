@@ -75,7 +75,7 @@ public class AsteroidLarge extends Entity implements DamagableEntity {
         if (other instanceof PlayerShip) {
             ((PlayerShip) other).damage(BASE_DAMAGE_AMOUNT * Main.difficulty.getModifier());
                 
-            destroyWithExplosion(false); // При столкновении корабля и астеройда взрыв будет
+            destroyWithExplosion(false);
         }
     }
 
@@ -87,7 +87,7 @@ public class AsteroidLarge extends Entity implements DamagableEntity {
     public void damage(double amount) {
         currentHealth -= amount;
         if (currentHealth <= 0) {
-            destroy(true); // При разрушении большого астеройда - взрыва не будет, Имхо он не нужен. А вот когда разрушаются маленькие - имхо нужен
+            destroy(true);
         }
     }
 
@@ -96,8 +96,6 @@ public class AsteroidLarge extends Entity implements DamagableEntity {
         GameScene scene = (GameScene) Game.getInstance().getOpenScene();
         scene.addScore((int) (BASE_SCORE_VALUE * Main.difficulty.getModifier()));
 
-        //Explosion explosion = new Explosion(getPosition(), 200, 0.4);
-        //scene.addObject(explosion);
         scene.removeObject(this);
         if (split) {
             Vector2 position = getPosition();
@@ -109,7 +107,6 @@ public class AsteroidLarge extends Entity implements DamagableEntity {
         }
     }
 
-    // Пришлось добавить точно такой же метод как сверху, но в верхнем нет взрыва, в этом есть.
     private void destroyWithExplosion(boolean split) {
         ResourceLoader.loadAudioClip("res/audio/AsteroidHit.wav").start();
         GameScene scene = (GameScene) Game.getInstance().getOpenScene();

@@ -50,9 +50,8 @@ public class GameScene extends SceneWithKeys {
     private boolean paused;
     private InputManager inputManager;
 
-    // Новая переменная для хранения сообщения о волне
     private String waveMessage = "";
-    private double waveMessageDuration = 0; // Длительность отображения сообщения
+    private double waveMessageDuration = 0;
 
     @Override
     public void initialize() {
@@ -79,7 +78,7 @@ public class GameScene extends SceneWithKeys {
         player = new PlayerShip(PLAYER_START);
         addObject(player);
         addObject(new FadeIn(1.5));
-       addObject(new Wave1(this)); // Передаем ссылку на GameScene в Wave1
+       addObject(new Wave1(this));
       
     }
 
@@ -87,11 +86,10 @@ public class GameScene extends SceneWithKeys {
     public void tick() {
         super.tick();
         
-        // Уменьшаем время отображения сообщения о волне
         if (waveMessageDuration > 0) {
             waveMessageDuration -= Game.getInstance().getDeltaTime();
             if (waveMessageDuration <= 0) {
-                waveMessage = ""; // Скрываем сообщение
+                waveMessage = "";
             }
         }
 
@@ -146,8 +144,7 @@ public class GameScene extends SceneWithKeys {
         g.setColor(Color.WHITE);
         g.setFont(UI_FONT);
         g.drawString("Счёт: " + score, 50, 70);
-        
-        // Отображаем сообщение о волне, если оно есть
+
         if (!waveMessage.isEmpty()) {
             g.drawString(waveMessage, Main.WIDTH / 2 - g.getFontMetrics().stringWidth(waveMessage) / 2, 100);
         }
@@ -162,7 +159,7 @@ public class GameScene extends SceneWithKeys {
     String pauseMessage = "ПАУЗА";
     int containerWidth = Main.WIDTH;
     int pauseMessageWidth = g.getFontMetrics().stringWidth(pauseMessage);
-    int pauseMessageX = (containerWidth - pauseMessageWidth) / 2; // Вычисляем координату X для центрирования
+    int pauseMessageX = (containerWidth - pauseMessageWidth) / 2;
     g.drawString(pauseMessage, pauseMessageX, 230);
     
     renderScrollingMenus(g, PAUSE_MENU_OPTIONS, currentPauseOption);
@@ -171,30 +168,28 @@ public class GameScene extends SceneWithKeys {
 
     private void drawHealthBar(Graphics g) {
         double healthProportion = player.getCurrentHealth() / player.getMaxHealth();
-        int totalBlocks = (int) player.getMaxHealth();  // Общее количество блоков HP
-        int numBars = (int) Math.ceil(healthProportion * totalBlocks); // Количество активных блоков
-        int blockWidth = 23; // Ширина одного блока HP
-        int padding = 10; // Отступ от правого края экрана
-        int xOffset = Main.WIDTH - (totalBlocks * blockWidth) - padding; // Начальная позиция для отрисовки с учетом отступа
+        int totalBlocks = (int) player.getMaxHealth();
+        int numBars = (int) Math.ceil(healthProportion * totalBlocks);
+        int blockWidth = 23;
+        int padding = 10;
+        int xOffset = Main.WIDTH - (totalBlocks * blockWidth) - padding;
 
-        // Отрисовка рамки или фона для индикатора здоровья
         g.drawImage(END_HP, xOffset - END_HP.getWidth(null), 35, null);
 
-        // Отрисовка блоков HP с изменением цвета
         for (int i = 0; i < totalBlocks; i++) {
             Image hpBlock;
             if (i < numBars) {
-                // Определяем цвет блока в зависимости от уровня здоровья
+
                 if (healthProportion < 0.33) {
-                    hpBlock = RED_HP; // Красный цвет
+                    hpBlock = RED_HP;
                 } else if (healthProportion < 0.66) {
-                    hpBlock = YELLOW_HP; // Желтый цвет
+                    hpBlock = YELLOW_HP;
                 } else {
-                    hpBlock = GREEN_HP; // Зеленый цвет
+                    hpBlock = GREEN_HP;
                 }
-                g.drawImage(hpBlock, xOffset + i * blockWidth, 35, null); // Отрисовка активного блока
+                g.drawImage(hpBlock, xOffset + i * blockWidth, 35, null);
             } else {
-                g.drawImage(BLACK_HP, xOffset + i * blockWidth, 35, null); // Отрисовка блока, если HP меньше
+                g.drawImage(BLACK_HP, xOffset + i * blockWidth, 35, null);
             }
         }
     }
@@ -212,14 +207,13 @@ public class GameScene extends SceneWithKeys {
         super.dispose();
         backgroundMusic.stop();
 
-        // Создаем копию списка объектов
         List<SceneObject> objectsCopy = new ArrayList<>(objects);
 
         for (SceneObject object : objectsCopy) {
             object.dispose();
         }
 
-        objects.clear(); // Теперь безопасно очищаем оригинальный список
+        objects.clear();
         bounds.setActive(false);
     }
 
@@ -232,9 +226,8 @@ public class GameScene extends SceneWithKeys {
         return score;
     }
 
-    // Метод для обновления сообщения о волне
     public void setWaveMessage(String message) {
         this.waveMessage = message;
-        this.waveMessageDuration = 3.0; // Установите длительность отображения сообщения (в секундах)
+        this.waveMessageDuration = 3.0;
     }
 }

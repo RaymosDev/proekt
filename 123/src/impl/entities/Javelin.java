@@ -23,8 +23,8 @@ public class Javelin extends Entity implements DamagableEntity {
     private static final double BASE_CONTACT_DAMAGE = 2.0;
     private static final double BASE_LASER_DAMAGE = 2;
     private static final double LASER_COOLDOWN = 2;
-    private static int LASER_WIDTH; // Адаптивный размер
-    private static int LASER_HEIGHT; // Адаптивный размер
+    private static int LASER_WIDTH;
+    private static int LASER_HEIGHT;
     private static final double LASER_SPEED = 1000.0;
 
     private static Image SPRITE_1;
@@ -35,7 +35,7 @@ public class Javelin extends Entity implements DamagableEntity {
     private double nextFireTime;
 
     static {
-        updateDimensions(); // Инициализируем размеры и загружаем изображения
+        updateDimensions();
     }
 
     public Javelin(Vector2 position) {
@@ -73,7 +73,6 @@ public class Javelin extends Entity implements DamagableEntity {
     }
 
     private void fireLaser() {
-        // Вычисляем координаты для лазера, чтобы он появлялся в центре левой границы хитбокса
         int laserX = (int) (getPosition().getX() - (WIDTH / 2.0) - (LASER_WIDTH / 2.0));
         int laserY = (int) getPosition().getY();
         Laser laser = new Laser(new Vector2(laserX, laserY));
@@ -86,7 +85,6 @@ public class Javelin extends Entity implements DamagableEntity {
         double time = Game.getInstance().getTime();
         Image sprite = (time % 0.3 < 0.15) ? SPRITE_1 : SPRITE_2;
 
-        // Отрисовка спрайта
         g.drawImage(sprite, (int) (position.getX() - WIDTH / 2.0), (int) (position.getY() - HEIGHT / 2.0), null);
     }
 

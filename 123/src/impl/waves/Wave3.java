@@ -39,13 +39,13 @@ public class Wave3 extends Wave {
         if (enemyCount >= modifiedMaxEnemyCount) {
             GameScene scene = (GameScene) Game.getInstance().getOpenScene();
             scene.removeObject(this);
-            scene.addObject(new Wave4(scene)); // Передаем ссылку на GameScene в следующую волну
+            scene.addObject(new Wave4(scene));
         }
     }
 
     @Override
     protected String getWaveMessage() {
-        return "NEW WAVE"; // Сообщение для первой волны
+        return "NEW WAVE";
     }
 }
 

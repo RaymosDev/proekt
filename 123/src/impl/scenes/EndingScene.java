@@ -20,10 +20,6 @@ import gameEngine.InputManager;
 import gameEngine.ResourceLoader;
 import impl.Main;
 
-/**
- *
- * @author Marko Milovanovic
- */
 public class EndingScene extends SceneWithKeys {
     private Image backgroundImage;
     private Clip backgroundMusic;
@@ -75,29 +71,28 @@ public class EndingScene extends SceneWithKeys {
     InputManager inputManager = Game.getInstance().getInputManager();
     g.setColor(Color.WHITE);
     g.setFont(DEATH_FONT);
-    
-    // Центрируем текст "ВЫ ПОГИБЛИ"
+
     String deathMessage = "ВЫ ПОГИБЛИ";
     int containerWidth = Main.WIDTH;
     int deathMessageWidth = g.getFontMetrics().stringWidth(deathMessage);
-    int deathMessageX = (containerWidth - deathMessageWidth) / 2; // Вычисляем координату X
+    int deathMessageX = (containerWidth - deathMessageWidth) / 2;
     g.drawString(deathMessage, deathMessageX, 60);
 
     g.setFont(SCORE_FONT);
     String scoreText = "Ваш счёт: " + score;
     int scoreTextWidth = g.getFontMetrics().stringWidth(scoreText);
-    int scoreTextX = (containerWidth - scoreTextWidth) / 2; // Центрируем текст по оси X
+    int scoreTextX = (containerWidth - scoreTextWidth) / 2;
     g.drawString(scoreText, scoreTextX, 130);
 
     if (wasNewHighScore) {
         String highScoreText = "Новый рекорд!";
         int highScoreTextWidth = g.getFontMetrics().stringWidth(highScoreText);
-        int highScoreTextX = (containerWidth - highScoreTextWidth) / 2; // Центрируем текст по оси X
+        int highScoreTextX = (containerWidth - highScoreTextWidth) / 2;
         g.drawString(highScoreText, highScoreTextX, 200);
     } else {
         String highScoreText = "Ваш рекорд: " + highScore;
         int highScoreTextWidth = g.getFontMetrics().stringWidth(highScoreText);
-        int highScoreTextX = (containerWidth - highScoreTextWidth) / 2; // Центрируем текст по оси X
+        int highScoreTextX = (containerWidth - highScoreTextWidth) / 2;
         g.drawString(highScoreText, highScoreTextX, 200);
     }
 
@@ -106,17 +101,8 @@ public class EndingScene extends SceneWithKeys {
     renderScrollingMenus(g, ENDING_OPTIONS, currentOption);
     endMenuEnter(inputManager);
 }
-
-
-    /**
-     * Decides what enter will do depending on the which option is highlighted,
-     * restarts, goes to main menu, or quits the game
-     *
-     * @param inputManager
-     */
     public void endMenuEnter(InputManager inputManager) {
 
-	// depending on the option selected, enter will do something else
 	if (inputManager.getKeyDown(KeyEvent.VK_ENTER)) {
 	    if (currentOption == 0) {
 		Game.getInstance().loadScene(new GameScene());
@@ -128,19 +114,10 @@ public class EndingScene extends SceneWithKeys {
 	}
     }
 
-    /**
-     *
-     * returns the high score found in the file, if this is the first time the game
-     * was played, creates a folder to house the high score file
-     * 
-     * @throws FileNotFoundException
-     */
-
     public int getHighScore() throws FileNotFoundException {
     File highScoreFile;
     int highScore = 0;
 
-    // Путь к файлу высокого счета в папке с игрой
     highScoreFile = new File("highScore.txt");
 
     if (highScoreFile.exists()) {
@@ -153,19 +130,9 @@ public class EndingScene extends SceneWithKeys {
     return highScore;
 }
 
-   
-
-    /**
-     * Saves the high score in a file that can be read again even when the game is
-     * closed
-     * 
-     * @param highScore: the new high score
-     * @throws IOException
-     */
     public void setHighScore(int highScore) throws IOException {
     File highScoreFile = new File("highScore.txt");
     
-    // Создаем файл, если он не существует
     if (!highScoreFile.exists()) {
         highScoreFile.createNewFile();
     }

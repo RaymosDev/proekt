@@ -69,29 +69,28 @@ public class VictoryScene extends SceneWithKeys {
         InputManager inputManager = Game.getInstance().getInputManager();
         g.setColor(Color.WHITE);
         g.setFont(VICTORY_FONT);
-        
-        // Центрируем текст "ВЫ ПОБЕДИЛИ"
-        String victoryMessage = "ВЫ ПОБЕДИЛИ";
+
+        String victoryMessage = "ВЫ ПОБЕДИЛИ!";
         int containerWidth = Main.WIDTH;
         int victoryMessageWidth = g.getFontMetrics().stringWidth(victoryMessage);
-        int victoryMessageX = (containerWidth - victoryMessageWidth) / 2; // Вычисляем координату X
+        int victoryMessageX = (containerWidth - victoryMessageWidth) / 2;
         g.drawString(victoryMessage, victoryMessageX, 60);
 
         g.setFont(SCORE_FONT);
         String scoreText = "Ваш счёт: " + score;
         int scoreTextWidth = g.getFontMetrics().stringWidth(scoreText);
-        int scoreTextX = (containerWidth - scoreTextWidth) / 2; // Центрируем текст по оси X
+        int scoreTextX = (containerWidth - scoreTextWidth) / 2;
         g.drawString(scoreText, scoreTextX, 130);
 
         if (wasNewHighScore) {
             String highScoreText = "Новый рекорд!";
             int highScoreTextWidth = g.getFontMetrics().stringWidth(highScoreText);
-            int highScoreTextX = (containerWidth - highScoreTextWidth) / 2; // Центрируем текст по оси X
+            int highScoreTextX = (containerWidth - highScoreTextWidth) / 2;
             g.drawString(highScoreText, highScoreTextX, 200);
         } else {
             String highScoreText = "Ваш рекорд: " + highScore;
             int highScoreTextWidth = g.getFontMetrics().stringWidth(highScoreText);
-            int highScoreTextX = (containerWidth - highScoreTextWidth) / 2; // Центрируем текст по оси X
+            int highScoreTextX = (containerWidth - highScoreTextWidth) / 2;
             g.drawString(highScoreText, highScoreTextX, 200);
         }
 

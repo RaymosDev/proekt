@@ -119,7 +119,7 @@ public class ResolutionConfig {
     }
     return RESOLUTION_1280x720_LASER_Hornet; // Значение по умолчанию
 }
-    
+    // Новый метод для Javelin
     public static Resolution getJavelinSize() {
         if (Main.WIDTH == 1280 && Main.HEIGHT == 720) {
             return RESOLUTION_1280x720_Javelin;
@@ -137,7 +137,7 @@ public class ResolutionConfig {
     }
     return RESOLUTION_1280x720_LASER_Javelin; // Значение по умолчанию
 }
-           // Новый метод для Hornet
+           // Новый метод для Marauder
     public static Resolution getMarauderSize() {
         if (Main.WIDTH == 1280 && Main.HEIGHT == 720) {
             return RESOLUTION_1280x720_Marauder;

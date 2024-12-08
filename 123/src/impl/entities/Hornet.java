@@ -22,8 +22,8 @@ public class Hornet extends Entity implements DamagableEntity {
     private static final double HEALTH_DROP_CHANCE = 0.15;
     private static final double BASE_CONTACT_DAMAGE = 1.0;
     private static final double LASER_COOLDOWN = 0.5;
-    private static int LASER_WIDTH; // Адаптивный размер
-    private static int LASER_HEIGHT; // Адаптивный размер
+    private static int LASER_WIDTH; 
+    private static int LASER_HEIGHT;
     private static final double LASER_SPEED = 1000.0;
     private static final double BASE_LASER_DAMAGE = 1.0;
     private static Image SPRITE_1;
@@ -35,7 +35,7 @@ public class Hornet extends Entity implements DamagableEntity {
     private double nextFireTime;
 
     static {
-        updateDimensions(); // Инициализируем размеры и загружаем изображения
+        updateDimensions();
     }
 
     public Hornet(Vector2 position) {

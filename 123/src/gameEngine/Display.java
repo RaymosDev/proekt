@@ -12,13 +12,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-/**
- * Represents the window in which the game is played in, providing a Canvas for
- * other classes to draw on.
- * 
- * @author Connor Reinholdtsen
- */
-public class Display { // Изменено на public
+public class Display {
     private static final int NUM_BUFFERS = 3;
 
     private JFrame window;

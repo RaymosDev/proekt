@@ -24,9 +24,9 @@ public class PlayerShip extends Entity implements DamagableEntity {
     private static final double MAX_HEALTH = 15;
 
     private static final double LASER_DAMAGE_AMOUNT = 1;
-    private static final double LASER_SPEED = 1500; // Оставляем фиксированное значение
-    private static int LASER_WIDTH; // Адаптивный размер
-    private static int LASER_HEIGHT; // Адаптивный размер
+    private static final double LASER_SPEED = 1500;
+    private static int LASER_WIDTH;
+    private static int LASER_HEIGHT;
 
     public static Image PLAYER_1;
     public static Image PLAYER_2;
@@ -38,7 +38,7 @@ public class PlayerShip extends Entity implements DamagableEntity {
     private double nextFireTime;
 
     static {
-        updateDimensions(); // Инициализируем размеры и загружаем изображения
+        updateDimensions();
     }
 
     public PlayerShip(Vector2 position) {
@@ -78,10 +78,10 @@ public class PlayerShip extends Entity implements DamagableEntity {
 
         Vector2 position = getPosition();
         position.add(move);
-        double leftBoundary = Main.WIDTH * 0.04; // 10% от ширины
-        double rightBoundary = Main.WIDTH * 1.038; // 90% от ширины
-        double topBoundary = Main.HEIGHT * 0.043; // 10% от высоты
-        double bottomBoundary = Main.HEIGHT * 1.039; // 90% от высоты
+        double leftBoundary = Main.WIDTH * 0.04;
+        double rightBoundary = Main.WIDTH * 1.038;
+        double topBoundary = Main.HEIGHT * 0.043;
+        double bottomBoundary = Main.HEIGHT * 1.039;
 
     position.setX(clamp(position.getX(), leftBoundary, rightBoundary - WIDTH));
     position.setY(clamp(position.getY(), topBoundary, bottomBoundary - HEIGHT));

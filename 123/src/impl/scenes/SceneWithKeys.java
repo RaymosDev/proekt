@@ -11,10 +11,6 @@ import gameEngine.ResourceLoader;
 import gameEngine.Scene;
 import impl.Main;
 
-/**
- *
- * @author Marko Milovanovic
- */
 public class SceneWithKeys extends Scene {
     private static final Font UI_FONT = ResourceLoader.loadFont("res/Font.ttf", 36);
     public final Image buttonSelected = ResourceLoader.loadImage("res/images/ui/ButtonHover.png").getScaledInstance(336,
@@ -24,21 +20,12 @@ public class SceneWithKeys extends Scene {
     public void initialize() {
     }
 
-    /**
-     * Renders all the options Increases the size of option currently being
-     * considered
-     *
-     * @param g:       graphics from above
-     * @param options: the options that can be selected
-     */
   public void renderScrollingMenus(Graphics g, String[] options, int currentOption) {
     Image buttonState;
     g.setFont(UI_FONT);
-    int containerWidth = Main.WIDTH; // Получаем ширину контейнера
-
-    // Центрируем кнопки по оси Y и добавляем смещение вниз
-    int offset = 120; // Смещение вниз (можно изменить по вашему усмотрению)
-    int startY = (Main.HEIGHT - (options.length * 67)) / 2 + offset; // Вычисляем начальную координату Y для первой кнопки
+    int containerWidth = Main.WIDTH;
+    int offset = 120;
+    int startY = (Main.HEIGHT - (options.length * 67)) / 2 + offset;
 
     for (int i = 0; i < options.length; i++) {
         if (currentOption == i) {
@@ -49,28 +36,18 @@ public class SceneWithKeys extends Scene {
             buttonState = button;
         }
 
-        // Центрируем кнопку по оси X
-        int buttonX = (containerWidth - buttonState.getWidth(null)) / 2; // Вычисляем координату X для кнопки
-        g.drawImage(buttonState, buttonX, startY + 67 * i, null); // Используем startY вместо фиксированной 270
+        int buttonX = (containerWidth - buttonState.getWidth(null)) / 2;
+        g.drawImage(buttonState, buttonX, startY + 67 * i, null);
 
         String option = options[i];
         int width = g.getFontMetrics().stringWidth(option);
-        // Центрируем текст по оси X
-        int textX = (containerWidth - width) / 2; // Вычисляем координату X для текста
-        g.drawString(option, textX, startY + 39 + 67 * i); // Изменяем Y-координату текста для центрирования
+        int textX = (containerWidth - width) / 2;
+        g.drawString(option, textX, startY + 39 + 67 * i);
     }
 }
 
-    /**
-     * based on whether the up or down keys are clicked, the highlighted option is
-     * changed
-     *
-     * @param inputManager: to process user input
-     * @param options:      the possible options in list form
-     */
     public int upDown(InputManager inputManager, String[] options, int currentOption) {
 
-	// the if it passes the bottom, wraps around to the top
 	if (inputManager.getKeyDown(KeyEvent.VK_DOWN)) {
 	    onSound();
 	    currentOption++;
@@ -79,7 +56,6 @@ public class SceneWithKeys extends Scene {
 	    }
 	}
 
-	// the if it passes the bottom, wraps around to the top
 	if (inputManager.getKeyDown(KeyEvent.VK_UP)) {
 	    onSound();
 	    currentOption--;

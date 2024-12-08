@@ -11,9 +11,6 @@ import impl.entities.Javelin;
 import impl.entities.Marauder;
 import impl.scenes.GameScene;
 
-/**
- * A wave of enemies.
- */
 public abstract class Wave extends SceneObject {
     protected void spawnAsteroid() {
         GameScene scene = (GameScene) Game.getInstance().getOpenScene();
@@ -47,10 +44,9 @@ public abstract class Wave extends SceneObject {
     @Override
     public void initialize() {
         GameScene scene = (GameScene) Game.getInstance().getOpenScene();
-        scene.setWaveMessage(getWaveMessage()); // Устанавливаем сообщение о новой волне
+        scene.setWaveMessage(getWaveMessage());
     }
 
-    // Абстрактный метод для получения сообщения о волне
     protected abstract String getWaveMessage();
 
     @Override

@@ -21,14 +21,14 @@ public class Marauder extends Entity implements DamagableEntity {
     private static final int SCORE_VALUE = 300;
     private static final double HEALTH_DROP_CHANCE = 0.25;
     private static final double BASE_CONTACT_DAMAGE = 2.0;
-    private static int LARGE_ORB_WIDTH; // Адаптивный размер
-    private static int LARGE_ORB_HEIGHT; // Адаптивный размер
+    private static int LARGE_ORB_WIDTH;
+    private static int LARGE_ORB_HEIGHT;
     private static final double LARGE_ORB_SPEED = 500;
     private static final double LARGE_ORB_LIFETIME = 0.7;
     private static final double LARGE_ORB_COOLDOWN = 3.0;
     private static final double BASE_LARGE_ORB_DAMAGE = 3.0;
-    private static int SMALL_ORB_WIDTH; // Адаптивный размер
-    private static int SMALL_ORB_HEIGHT; // Адаптивный размер
+    private static int SMALL_ORB_WIDTH;
+    private static int SMALL_ORB_HEIGHT;
     private static final double SMALL_ORB_SPEED = 600;
     private static final double BASE_SMALL_ORB_DAMAGE = 1.0;
 
@@ -41,7 +41,7 @@ public class Marauder extends Entity implements DamagableEntity {
     private double nextFireTime;
 
     static {
-        updateDimensions(); // Инициализируем размеры и загружаем изображения
+        updateDimensions();
     }
 
     public Marauder(Vector2 position) {
