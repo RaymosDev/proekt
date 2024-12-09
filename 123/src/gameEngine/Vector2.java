@@ -1,125 +1,143 @@
-package gameEngine; // Объявление пакета, в котором находится класс Vector2.
+package gameEngine;
 
-/*  Класс Vector2 представляет собой двумерный вектор и предоставляет различные 
-    методы для работы с векторами, включая создание векторов из угла и величины, 
-    операции сложения и вычитания, умножение на скаляр, вычисление длины, 
-    нормализацию, скалярное произведение, вычисление угла между векторами, 
-    поворот вектора и создание его копии. Класс также переопределяет метод 
-    toString для удобного отображения вектора в строковом формате.
+/*  
+*   Vector2 класс представляет собой двумерный вектор и всевозможные операции с ним
 */
 
-public class Vector2 { // Объявление класса Vector2.
-    public double x; // Координата X вектора.
-    public double y; // Координата Y вектора.
+public class Vector2 
+{ 
+    // Координаты
+    public double x; 
+    public double y;
 
-    // Конструктор класса, инициализирующий координаты вектора.
-    public Vector2(double x, double y) {
-        this.x = x; // Установка значения координаты X.
-        this.y = y; // Установка значения координаты Y.
+
+    public Vector2(double x, double y) 
+    {
+        this.x = x; 
+        this.y = y;
     }
 
-    // Статический метод для создания вектора из угла и величины.
-    public static Vector2 fromAngle(double angle, double magnitude) {
-        double x = Math.cos(angle) * magnitude; // Вычисление координаты X.
-        double y = Math.sin(angle) * magnitude; // Вычисление координаты Y.
-        return new Vector2(x, y); // Возврат нового вектора.
+
+    public static Vector2 fromAngle(double angle, double magnitude)  // Создания вектора из угла и величины (Полярная СК)
+    {
+        double x = Math.cos(angle) * magnitude; 
+        double y = Math.sin(angle) * magnitude; 
+        return new Vector2(x, y); 
     }
 
-    // Метод для получения значения координаты X.
-    public double getX() {
-        return x; // Возврат значения координаты X.
+
+    public double getX() 
+    {
+        return x; 
     }
 
-    // Метод для установки значения координаты X и возврата текущего объекта.
-    public Vector2 setX(double x) {
+
+    public Vector2 setX(double x) 
+    {
         this.x = x; // Установка нового значения координаты X.
-        return this; // Возврат текущего объекта для цепочного вызова.
+        return this; // возвращаем этот же объект для цепного вызова (см. method chaining)
     }
 
-    // Метод для получения значения координаты Y.
-    public double getY() {
-        return y; // Возврат значения координаты Y.
+
+    public double getY() 
+    {
+        return y;
     }
 
-    // Метод для установки значения координаты Y и возврата текущего объекта.
-    public Vector2 setY(double y) {
-        this.y = y; // Установка нового значения координаты Y.
-        return this; // Возврат текущего объекта для цепочного вызова.
+
+    public Vector2 setY(double y) 
+    {
+        this.y = y; 
+        return this; 
     }
 
-    // Метод для сложения текущего вектора с другим вектором.
-    public Vector2 add(Vector2 other) {
-        return add(other.x, other.y); // Вызов перегруженного метода сложения с координатами другого вектора.
+   
+    public Vector2 add(Vector2 other) // Сложение вектора с вектором
+    {
+        return add(other.x, other.y); 
     }
 
-    // Метод для сложения текущего вектора с заданными координатами.
-    public Vector2 add(double x, double y) {
-        this.x += x; // Сложение координаты X.
-        this.y += y; // Сложение координаты Y.
-        return this; // Возврат текущего объекта для цепочного вызова.
+
+    public Vector2 add(double x, double y) // Сложение вектора с заданными координатами
+    {
+        this.x += x; 
+        this.y += y; 
+        return this; 
     }
 
-    // Метод для вычитания другого вектора из текущего.
-    public Vector2 subtract(Vector2 other) {
-        return subtract(other.x, other.y); // Вызов перегруженного метода вычитания с координатами другого вектора.
+
+    public Vector2 subtract(Vector2 other) // Разность вектора и вектора
+    {
+        return subtract(other.x, other.y); 
     }
 
-    // Метод для вычитания заданных координат из текущего вектора.
-    public Vector2 subtract(double x, double y) {
-        this.x -= x; // Вычитание координаты X.
-        this.y -= y; // Вычитание координаты Y.
-        return this; // Возврат текущего объекта для цепочного вызова.
+
+    public Vector2 subtract(double x, double y) // Разность вектора и заданных координат
+    {
+        this.x -= x; 
+        this.y -= y; 
+        return this; 
     }
 
-    // Метод для умножения вектора на скаляр.
-    public Vector2 multiply(double scalar) {
-        x *= scalar; // Умножение координаты X на скаляр.
-        y *= scalar; // Умножение координаты Y на скаляр.
-        return this; // Возврат текущего объекта для цепочного вызова.
+  
+    public Vector2 multiply(double scalar)   // Умножения вектора на скаляр
+    {
+        x *= scalar;
+        y *= scalar; 
+        return this;
     }
 
-    // Метод для вычисления длины вектора (модуля).
-    public double magnitude() {
-        return Math.sqrt(x * x + y * y); // Вычисление длины вектора с использованием теоремы Пифагора.
+
+    public double magnitude()  // Вычисление модуля (длины) вектора 
+    {
+        return Math.sqrt(x * x + y * y); 
     }
 
-    // Метод для нормализации вектора (приведение к единичной длине).
-    public Vector2 normalize() {
-        double magnitude = magnitude(); // Получение длины вектора.
-        x /= magnitude; // Деление координаты X на длину.
-        y /= magnitude; // Деление координаты Y на длину.
-        return this; // Возврат текущего объекта для цепочного вызова.
+   
+    public Vector2 normalize()  // Нормализация вектора (кто забыл: Нормализация вектора - это уменьшение длины вектора до единичной при сохранении направления, для этого каждую координату делим на длину вектора)
+    {
+        double magnitude = magnitude();
+        x /= magnitude; 
+        y /= magnitude; 
+        return this; 
     }
 
-    // Метод для вычисления скалярного произведения с другим вектором.
-    public double dotProduct(Vector2 other) {
-        return this.x * other.x + this.y * other.y; // Вычисление скалярного произведения.
+  
+    public double dotProduct(Vector2 other)  // Вчисления скалярного произведения с другим вектором
+    {
+        return this.x * other.x + this.y * other.y; 
     }
 
-    // Метод для вычисления угла между текущим вектором и другим вектором.
-    public double angleBetween(Vector2 other) {
+
+    public double angleBetween(Vector2 other) // вычисления угла между текущим вектором и другим вектором
+    {
         return Math.acos(this.dotProduct(other) / (this.magnitude() * other.magnitude())); // Вычисление угла с использованием обратного косинуса.
     }
 
-    // Метод для поворота вектора на заданный угол.
-    public Vector2 rotate(double angle) {
-        double sin = Math.sin(angle); // Вычисление синуса угла.
-        double cos = Math.cos(angle); // Вычисление косинуса угла.
-        double newX = x * cos - y * sin; // Вычисление новой координаты X.
-        double newY = x * sin + y * cos; // Вычисление новой координаты Y.
-        x = newX; // Обновление координаты X.
-        y = newY; // Обновление координаты Y.
-        return this; // Возврат текущего объекта для цепочного вызова.
+    
+    public Vector2 rotate(double angle) // Поворот вектора на заданный угол (https://ru.stackoverflow.com/questions/1409394/%D0%9A%D0%B0%D0%BA-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D0%B5%D1%82-%D1%84%D0%BE%D1%80%D0%BC%D1%83%D0%BB%D0%B0-%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%B0-%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0-%D0%BD%D0%B0-%D1%83%D0%B3%D0%BE%D0%BB)
+    {
+        double sin = Math.sin(angle); 
+        double cos = Math.cos(angle); 
+        double newX = x * cos - y * sin; 
+        double newY = x * sin + y * cos; 
+        x = newX;
+        y = newY; 
+        return this; 
     }
 
-    // Метод для создания копии текущего вектора.
-    public Vector2 clone() {
-        return new Vector2(x, y); // Возврат нового вектора с текущими координатами.
+
+    public Vector2 clone()  // Создать копию текущего вектора
+    {
+        return new Vector2(x, y);
     }
 
-    // Переопределение метода toString для удобного отображения вектора.
+
+
+    // для удобного отображения вектора
     @Override
-    public String toString() {
-        return String.format("[%f, %f]", x, y); // Форматированный вывод координат вектора.
+    public String toString() 
+    {
+        return String.format("[%f, %f]", x, y);
     }
 }

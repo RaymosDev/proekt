@@ -21,7 +21,7 @@ public class Game {
     private int height; // Высота окна 
     private InputManager inputManager; 
     private Display display; // Объект для отображения графики.
-    private Scene currentScene; // Текущая сцена, отображаемая в игре.
+    private Scene currentScene; // Текущая сцена
     private Scene nextScene; // Сцена, ожидающая загрузки.
     private boolean running; // Флаг, указывающий, запущена ли игра.
     private double timeScale; // Масштаб времени для управления скоростью игры.

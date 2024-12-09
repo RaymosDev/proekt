@@ -11,7 +11,7 @@ public abstract class Collider
 { 
     private static List<Collider> activeColliders = new ArrayList<>(); //  список активных коллайдеров
 
-    private double minX, minY, maxX, maxY; // уоординаты прямоугольника-коллайдера
+    private double minX, minY, maxX, maxY; // координаты прямоугольника-коллайдера
     private List<Collider> contacts; // список других коллайдеров, с которыми данный коллайдер контактирует
 
     public Collider(double minX, double minY, double maxX, double maxY) // конструктор, принимающий координаты
@@ -166,20 +166,20 @@ public abstract class Collider
         }
     }
 
-    private void handleCollisionEnter(Collider other) // Обработка входа в столкновение
+    private void handleCollisionEnter(Collider other) // Обработка входа в столкновение для обоих коллайдеров
     { 
-        this.contacts.add(other); // Добавление другого коллайдера в список контактов.
-        other.contacts.add(this); // Добавление текущего коллайдера в список контактов другого коллайдера.
-        this.onCollisionEnter(other); // Вызов метода обработки входа в столкновение для текущего коллайдера.
-        other.onCollisionEnter(this); // Вызов метода обработки входа в столкновение для другого коллайдера.
+        this.contacts.add(other); 
+        other.contacts.add(this); 
+        this.onCollisionEnter(other); 
+        other.onCollisionEnter(this); 
     }
 
-    private void handleCollisionExit(Collider other) // Обработка выхода из столкновения
+    private void handleCollisionExit(Collider other) // Обработка выхода из столкновения для обоих коллайдеров
     { 
-        this.contacts.remove(other); // Удаление другого коллайдера из списка контактов.
-        other.contacts.remove(this); // Удаление текущего коллайдера из списка контактов другого коллайдера.
-        this.onCollisionExit(other); // Вызов метода обработки выхода из столкновения для текущего коллайдера.
-        other.onCollisionExit(this); // Вызов метода обработки выхода из столкновения для другого коллайдера.
+        this.contacts.remove(other); 
+        other.contacts.remove(this); 
+        this.onCollisionExit(other); 
+        other.onCollisionExit(this); 
     }
 
     public abstract void onCollisionEnter(Collider other); // Обработка входа в столкновение

@@ -1,72 +1,82 @@
 package gameEngine; 
 
 /*  
-*   Тут в целом про создание и управление графическим интерфейсом (настройки размера, курсора, буферизации для отрисовки...)
+*   Тут будет в целом про отображение окна игры и мб графический интерфейс
 */
 
-import java.awt.Canvas; // Импорт класса Canvas для создания области рисования.
-import java.awt.Cursor; // Импорт класса Cursor для работы с курсором.
-import java.awt.Dimension; // Импорт класса Dimension для задания размеров.
-import java.awt.Image; // Импорт класса Image для работы с изображениями.
-import java.awt.Point; // Импорт класса Point для работы с координатами.
-import java.awt.Toolkit; // Импорт класса Toolkit для доступа к системным ресурсам.
-import java.awt.event.KeyListener; // Импорт интерфейса KeyListener для обработки событий клавиатуры.
-import java.awt.image.BufferStrategy; // Импорт класса BufferStrategy для управления буферизацией.
+import java.awt.Canvas;
+import java.awt.Cursor; 
+import java.awt.Dimension;
+import java.awt.Image; 
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage; 
 import javax.swing.JFrame; 
 
-public class Display { // Объявление класса Display, который отвечает за отображение окна игры.
-    private static final int NUM_BUFFERS = 3; // Константа, определяющая количество буферов для двойной буферизации.
+public class Display 
+{ 
+    private static final int NUM_BUFFERS = 3; 
 
     private JFrame window; // Объект окна приложения
-    private Canvas canvas; // Объект холста для рисования (или типа того)
+    private Canvas canvas; // Объект холста для рисования
 
-    public Display(String title, int width, int height, Image icon, KeyListener keyListener) { // Конструктор класса Display.
-        Dimension dimension = new Dimension(width, height); // Создание объекта Dimension с заданными шириной и высотой.
+    public Display(String title, int width, int height, Image icon, KeyListener keyListener)
+    { 
+        Dimension dimension = new Dimension(width, height);
 
-        window = new JFrame(title); // Инициализация окна с заданным заголовком.
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Установка действия при закрытии окна.
-        window.setSize(dimension); // Установка размера окна.
-        window.setResizable(false); // Запрет изменения размера окна.
-        window.setLocationRelativeTo(null); // Центрирование окна на экране.
-        window.setIconImage(icon); // Установка иконки окна.
+        window = new JFrame(title); 
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setSize(dimension); 
+        window.setResizable(false); 
+        window.setLocationRelativeTo(null); // Центрирование окна на экране
+        window.setIconImage(icon);
 
-        // Создание пустого изображения для курсора.
+
+   
         BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "Blank"); // Создание пустого курсора.
-        window.getContentPane().setCursor(blankCursor); // Установка пустого курсора для окна.
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "Blank"); // Создание пустого курсора
+        window.getContentPane().setCursor(blankCursor); // Установка пустого курсора для окна
 
-        canvas = new Canvas(); // Инициализация холста.
-        canvas.setPreferredSize(dimension); // Установка предпочтительного размера холста.
-        canvas.setMinimumSize(dimension); // Установка минимального размера холста.
-        canvas.setMaximumSize(dimension); // Установка максимального размера холста.
-        canvas.setFocusable(false); // Запрет фокусировки на холсте.
 
-        window.add(canvas); // Добавление холста в окно.
-        window.pack(); // Упаковка окна с учетом размеров компонентов.
-        window.addKeyListener(keyListener); // Добавление слушателя клавиатуры для обработки событий.
+        canvas = new Canvas();
+        canvas.setPreferredSize(dimension); 
+        canvas.setMinimumSize(dimension); 
+        canvas.setMaximumSize(dimension);
+        canvas.setFocusable(false); // Запрет фокусировки на холсте
 
-        canvas.createBufferStrategy(NUM_BUFFERS); // Создание стратегии буферизации для холста.
+        window.add(canvas); // добавление холста в окно
+        window.pack(); // yпаковка окна с учетом размеров компонентов
+        window.addKeyListener(keyListener); // Добавление слушателя клавиатуры для обработки событий
+
+        canvas.createBufferStrategy(NUM_BUFFERS); 
     }
 
-    public void resize(int width, int height) { // Метод для изменения размера окна и холста.
-        Dimension newDimension = new Dimension(width, height); // Создание нового объекта Dimension с новыми размерами.
-        window.setSize(newDimension); // Установка нового размера окна.
-        canvas.setPreferredSize(newDimension); // Установка нового предпочтительного размера холста.
-        canvas.setMinimumSize(newDimension); // Установка нового минимального размера холста.
-        canvas.setMaximumSize(newDimension); // Установка нового максимального размера холста.
-        window.pack(); // Упаковка окна с учетом новых размеров компонентов.
+
+
+    public void resize(int width, int height) // Метод для изменения размера окна и холста.
+    { 
+        Dimension newDimension = new Dimension(width, height); 
+        window.setSize(newDimension); 
+        canvas.setPreferredSize(newDimension); 
+        canvas.setMinimumSize(newDimension); 
+        canvas.setMaximumSize(newDimension); 
+        window.pack(); 
     }
 
-    public BufferStrategy getBufferStrategy() { // Метод для получения стратегии буферизации холста.
-        return canvas.getBufferStrategy(); // Возврат текущей стратегии буферизации.
+    public BufferStrategy getBufferStrategy() 
+    { 
+        return canvas.getBufferStrategy(); 
     }
 
-    public void open() { // Метод для открытия окна.
-        window.setVisible(true); // Установка видимости окна.
+    public void open() // открытие окна
+    { 
+        window.setVisible(true); // первая лаба ( ͡° ͜ʖ ͡°)
     }
 
-    public void close() { // Метод для закрытия окна.
-        window.dispose(); // Освобождение ресурсов, связанных с окном.
+    public void close() // закрытие окна
+    { 
+        window.dispose(); 
     }
 }
