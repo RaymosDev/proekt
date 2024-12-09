@@ -1,4 +1,4 @@
-package gameEngine; // Объявление пакета, в котором находится класс Game.
+package gameEngine; 
 
 /*  Класс Game представляет собой основной класс игрового движка, 
     который управляет жизненным циклом игры, включая инициализацию, 
@@ -9,74 +9,78 @@ package gameEngine; // Объявление пакета, в котором на
     обновление состояния игры и отрисовку графики.
 */
 
-import java.awt.Graphics; // Импорт класса Graphics для работы с графикой.
-import java.awt.Image; // Импорт класса Image для работы с изображениями.
-import java.awt.image.BufferStrategy; // Импорт класса BufferStrategy для управления буферизацией графики.
+import java.awt.Graphics;
+import java.awt.Image; 
+import java.awt.image.BufferStrategy; 
 
-public class Game { // Объявление класса Game.
-    private static Game instance; // Статическая переменная для хранения единственного экземпляра игры (синглтон).
+public class Game { 
+    private static Game instance; // Тут храним единственный экземпляр игры
 
-    private String title; // Заголовок игры.
-    private int width; // Ширина окна игры.
-    private int height; // Высота окна игры.
-    private InputManager inputManager; // Менеджер ввода для обработки пользовательских команд.
+    private String title; // Заголовок 
+    private int width; // Ширина окна 
+    private int height; // Высота окна 
+    private InputManager inputManager; 
     private Display display; // Объект для отображения графики.
     private Scene currentScene; // Текущая сцена, отображаемая в игре.
     private Scene nextScene; // Сцена, ожидающая загрузки.
     private boolean running; // Флаг, указывающий, запущена ли игра.
     private double timeScale; // Масштаб времени для управления скоростью игры.
-    private double elapsedTimeSeconds; // Общее время, прошедшее с начала игры.
-    private double deltaTimeSeconds; // Время, прошедшее с последнего обновления.
+    private double elapsedTimeSeconds; // общее время, прошедшее с начала игры
+    private double deltaTimeSeconds; // время, прошедшее с последнего обновления
 
-    public Game(String title, int width, int height, Image icon) { // Конструктор класса Game.
-        if (instance != null) { // Проверка, существует ли уже экземпляр игры.
-            throw new IllegalStateException("There can be only one!"); // Исключение, если экземпляр уже существует.
+    public Game(String title, int width, int height, Image icon) {
+        if (instance != null) { // Если экземпляр игры уже существует
+            throw new IllegalStateException("Экземпляр Game уже существует"); 
         }
-        this.title = title; // Установка заголовка игры.
-        this.width = width; // Установка ширины окна.
-        this.height = height; // Установка высоты окна.
-        inputManager = new InputManager(); // Инициализация менеджера ввода.
-        display = new Display(title, width, height, icon, inputManager.getKeyListener()); // Создание объекта Display.
-        currentScene = null; // Изначально текущая сцена не установлена.
-        nextScene = null; // Изначально следующая сцена не установлена.
-        running = false; // Игра не запущена.
+        this.title = title; 
+        this.width = width;
+        this.height = height;
+        inputManager = new InputManager(); 
+        display = new Display(title, width, height, icon, inputManager.getKeyListener()); 
+        currentScene = null; 
+        nextScene = null; 
+        running = false; 
         timeScale = 1.0; // Установка масштаба времени по умолчанию.
-        elapsedTimeSeconds = 0.0; // Изначально прошедшее время равно 0.
-        deltaTimeSeconds = 0.0; // Изначально время обновления равно 0.
+        elapsedTimeSeconds = 0.0; // Изначально прошедшее время = 0.
+        deltaTimeSeconds = 0.0; // Изначально время обновления = 0.
         instance = this; // Установка текущего экземпляра как единственного.
     }
 
-    public static Game getInstance() { // Метод для получения единственного экземпляра игры.
-        return instance; // Возврат экземпляра игры.
+    public static Game getInstance() { 
+        return instance;
     }
 
-    public String getTitle() { // Метод для получения заголовка игры.
-        return title; // Возврат заголовка.
+    public String getTitle() { 
+        return title; 
     }
 
-    public int getWidth() { // Метод для получения ширины окна.
-        return width; // Возврат ширины.
+    public int getWidth() { 
+        return width; 
     }
 
-    public int getHeight() { // Метод для получения высоты окна.
-        return height; // Возврат высоты.
+    public int getHeight() { 
+        return height;
     }
 
-    public InputManager getInputManager() { // Метод для получения менеджера ввода.
-        return inputManager; // Возврат менеджера ввода.
+    public InputManager getInputManager() { 
+        return inputManager;
     }
 
-    public Display getDisplay() { // Метод для получения объекта отображения.
-        return display; // Возврат объекта Display.
+    public Display getDisplay() { 
+        return display;
     }
 
-    public void start() { // Метод для запуска игры.
-        if (running) { // Проверка, запущена ли игра.
-            throw new IllegalStateException("Game already started!"); // Исключение, если игра уже запущена.
+    public void start() // Метод для запуска игры
+    { 
+        if (running) // Если уже запущена
+        { 
+            throw new IllegalStateException("Игра уже запущена");
         }
-        display.open(); // Открытие окна отображения.
-        running = true; // Установка флага, указывающего на то, что игра запущена.
-        new Thread() { // Создание нового потока для выполнения игрового цикла.
+
+        display.open(); // Открытие окна отображения
+        running = true;
+        
+        new Thread() { // Поток для выполнения gameloop'а
             @Override
             public void run() { // Переопределение метода run для запуска игрового цикла.
                 long lastTimeMilis = System.currentTimeMillis(); // Запись текущего времени в миллисекундах.

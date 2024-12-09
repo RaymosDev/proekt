@@ -1,8 +1,7 @@
-package gameEngine; // Объявление пакета, в котором находится класс Display.
+package gameEngine; 
 
-/*  Этот класс Display отвечает за создание и 
-    управление графическим интерфейсом окна игры, 
-    включая настройки размера, курсора и буферизации для отрисовки.
+/*  
+*   Тут в целом про создание и управление графическим интерфейсом (настройки размера, курсора, буферизации для отрисовки...)
 */
 
 import java.awt.Canvas; // Импорт класса Canvas для создания области рисования.
@@ -13,15 +12,14 @@ import java.awt.Point; // Импорт класса Point для работы с
 import java.awt.Toolkit; // Импорт класса Toolkit для доступа к системным ресурсам.
 import java.awt.event.KeyListener; // Импорт интерфейса KeyListener для обработки событий клавиатуры.
 import java.awt.image.BufferStrategy; // Импорт класса BufferStrategy для управления буферизацией.
-import java.awt.image.BufferedImage; // Импорт класса BufferedImage для работы с изображениями в памяти.
-
-import javax.swing.JFrame; // Импорт класса JFrame для создания окна приложения.
+import java.awt.image.BufferedImage; 
+import javax.swing.JFrame; 
 
 public class Display { // Объявление класса Display, который отвечает за отображение окна игры.
     private static final int NUM_BUFFERS = 3; // Константа, определяющая количество буферов для двойной буферизации.
 
-    private JFrame window; // Объект окна приложения.
-    private Canvas canvas; // Объект холста для рисования.
+    private JFrame window; // Объект окна приложения
+    private Canvas canvas; // Объект холста для рисования (или типа того)
 
     public Display(String title, int width, int height, Image icon, KeyListener keyListener) { // Конструктор класса Display.
         Dimension dimension = new Dimension(width, height); // Создание объекта Dimension с заданными шириной и высотой.

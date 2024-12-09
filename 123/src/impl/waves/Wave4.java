@@ -34,7 +34,7 @@ import impl.scenes.VictoryScene; // Импорт класса VictoryScene дл�
 import java.util.Random; // Импорт класса Random для генерации случайных чисел.
 
 public class Wave4 extends Wave { // Определение класса Wave5, который наследует от класса Wave.
-    private static final double BASE_ENEMY_SPAWN_PERIOD = 0.9; // Базовый период появления врагов (в секундах).
+    private static final double BASE_ENEMY_SPAWN_PERIOD = 0.6; // Базовый период появления врагов (в секундах).
     private static final int BASE_MAX_ENEMY_COUNT = 20; // Максимальное количество врагов в волне.
 
     private double modifiedEnemySpawnPeriod; // Модифицированный период появления врагов.

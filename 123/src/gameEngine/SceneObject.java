@@ -1,19 +1,18 @@
-package gameEngine; // Объявление пакета, в котором находится класс SceneObject.
+package gameEngine;
 
-/*  Класс SceneObject является абстрактным классом, который служит основой для 
-    создания различных объектов, которые могут быть добавлены в сцену. 
-    Он определяет четыре абстрактных метода.
+/*  
+*   SceneObject - основа для создания различных объектов, которые могут быть добавлены в сцену (с) Умный индус
 */
 
-import java.awt.Graphics; // Импорт класса Graphics для работы с графикой.
+import java.awt.Graphics;
 
-public abstract class SceneObject { // Объявление абстрактного класса SceneObject.
+public abstract class SceneObject { 
 
-    public abstract void initialize(); // Абстрактный метод для инициализации объекта (должен быть реализован в подклассах).
+    public abstract void initialize(); // Инициализации объекта
 
-    public abstract void tick(); // Абстрактный метод для обновления состояния объекта (должен быть реализован в подклассах).
+    public abstract void tick(); // Обновления состояния объекта 
 
-    public abstract void render(Graphics g); // Абстрактный метод для отрисовки объекта на графическом контексте (должен быть реализован в подклассах).
+    public abstract void render(Graphics g); // Отрисовка объекта 
 
-    public abstract void dispose(); // Абстрактный метод для освобождения ресурсов объекта (должен быть реализован в подклассах).
+    public abstract void dispose(); // Освобождение ресурсов объекта 
 }
